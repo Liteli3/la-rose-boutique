@@ -1,0 +1,785 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}Administration - Détail Commande #{{ order.id }}{% endblock %}
+
+{% block extra_head %}
+<style>
+    /* Styles spécifiques pour la page de détail de commande */
+    .order-detail-page {
+        background: linear-gradient(135deg, #a0c4ff 0%, #bdb2ff 100%);
+        min-height: 100vh;
+        padding: 20px;
+    }
+
+    .order-detail-container {
+        max-width: 1400px;
+        margin: 20px auto;
+        background: white;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid #e1e5e9;
+    }
+
+    .order-detail-header {
+        background: linear-gradient(135deg, #89C2D9, #468FAF);
+        color: white;
+        padding: 25px 30px;
+        position: relative;
+    }
+
+    .order-detail-title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .order-number {
+        color: #A5B4FC;
+        font-weight: 800;
+    }
+
+    .header-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .nav-button {
+        display: inline-flex;
+        align-items: center;
+        padding: 10px 20px;
+        background: #A5B4FC;
+        color: #1e3a8a;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-button:hover {
+        background: #8B9EFD;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(165, 180, 252, 0.4);
+    }
+
+    .order-detail-content {
+        padding: 30px;
+        background: #fafbfc;
+    }
+
+    /* Layout principal */
+    .order-layout {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    /* Cartes d'information */
+    .info-card {
+        background: white;
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e2e8f0;
+        transition: all 0.3s ease;
+    }
+
+    .info-card:hover {
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+    }
+
+    .card-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #0c4a6e;
+        margin-bottom: 20px;
+        padding-bottom: 12px;
+        border-bottom: 2px solid #7dd3fc;
+    }
+
+    /* Section statut */
+    .status-section {
+        background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+        border: 1px solid #bae6fd;
+    }
+
+    .current-status {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #cbd5e1;
+    }
+
+    .status-label {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #374151;
+    }
+
+    .status-badge {
+        padding: 10px 20px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .status-pending {
+        background: #fef3c7;
+        color: #b45309;
+    }
+
+    .status-processing {
+        background: #bfdbfe;
+        color: #1e40af;
+    }
+
+    .status-shipped {
+        background: #dbeafe;
+        color: #1d4ed8;
+    }
+
+    .status-delivered {
+        background: #d1fae5;
+        color: #065f46;
+    }
+
+    .status-cancelled {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    .status-form {
+        margin-top: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-label {
+        display: block;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 8px;
+        font-size: 0.95rem;
+    }
+
+    .form-select {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: white;
+        cursor: pointer;
+    }
+
+    .form-select:focus {
+        outline: none;
+        border-color: #89C2D9;
+        box-shadow: 0 0 0 3px rgba(137, 194, 217, 0.1);
+    }
+
+    .submit-button {
+        width: 100%;
+        padding: 12px 20px;
+        background: linear-gradient(135deg, #89C2D9, #468FAF);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(137, 194, 217, 0.3);
+    }
+
+    .submit-button:hover {
+        background: linear-gradient(135deg, #74B3CE, #3A7CA5);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(137, 194, 217, 0.4);
+    }
+
+    /* Section actions administratives */
+    .danger-section {
+        background: linear-gradient(135deg, #fef2f2, #fee2e2);
+        border: 1px solid #fecaca;
+    }
+
+    .danger-title {
+        color: #991b1b;
+        border-bottom-color: #fca5a5;
+    }
+
+    .warning-text {
+        color: #991b1b;
+        font-size: 0.95rem;
+        margin-bottom: 20px;
+        padding: 15px;
+        background: #fef2f2;
+        border-radius: 8px;
+        border-left: 4px solid #dc2626;
+    }
+
+    .delete-button {
+        width: 100%;
+        padding: 12px 20px;
+        background: linear-gradient(135deg, #dc2626, #b91c1c);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+    }
+
+    .delete-button:hover {
+        background: linear-gradient(135deg, #b91c1c, #991b1b);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(220, 38, 38, 0.4);
+    }
+
+    /* Section informations client */
+    .client-details {
+        display: grid;
+        gap: 15px;
+    }
+
+    .detail-item {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .detail-label {
+        font-weight: 600;
+        color: #374151;
+        font-size: 0.9rem;
+    }
+
+    .detail-value {
+        color: #475569;
+        font-size: 1rem;
+    }
+
+    .address-value {
+        white-space: pre-line;
+        line-height: 1.5;
+    }
+
+    /* Section récapitulatif */
+    .summary-section {
+        background: linear-gradient(135deg, #89C2D9, #468FAF);
+        color: white;
+        border: none;
+    }
+
+    .summary-title {
+        color: white;
+        border-bottom-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .summary-items {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .summary-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+    }
+
+    .summary-label {
+        font-weight: 500;
+        opacity: 0.9;
+    }
+
+    .summary-value {
+        font-weight: 600;
+    }
+
+    .summary-total {
+        border-top: 1px solid rgba(255, 255, 255, 0.3);
+        padding-top: 15px;
+        margin-top: 10px;
+        font-size: 1.3rem;
+        font-weight: 700;
+    }
+
+    /* Section articles commandés */
+    .items-section {
+        margin-top: 30px;
+    }
+
+    .items-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #0c4a6e;
+        margin-bottom: 20px;
+        padding-bottom: 12px;
+        border-bottom: 2px solid #7dd3fc;
+    }
+
+    .table-container {
+        overflow-x: auto;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e5e7eb;
+        background: white;
+    }
+
+    .items-table {
+        width: 100%;
+        background: white;
+        border-collapse: collapse;
+        min-width: 600px;
+    }
+
+    .table-header {
+        background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+    }
+
+    .table-header th {
+        padding: 16px 20px;
+        text-align: left;
+        font-weight: 600;
+        color: #0c4a6e;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border-bottom: 2px solid #bae6fd;
+    }
+
+    .table-row {
+        transition: all 0.3s ease;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .table-row:hover {
+        background: #f8fafc;
+    }
+
+    .table-row td {
+        padding: 16px 20px;
+        font-size: 0.95rem;
+    }
+
+    .product-name {
+        font-weight: 600;
+        color: #1e293b;
+    }
+
+    .product-size {
+        color: #64748b;
+    }
+
+    .product-price, .product-quantity {
+        color: #475569;
+    }
+
+    .product-subtotal {
+        font-weight: 700;
+        color: #0f766e;
+        text-align: right;
+    }
+
+    .empty-items {
+        text-align: center;
+        padding: 40px 20px;
+        color: #64748b;
+        font-style: italic;
+    }
+
+    /* Messages Django */
+    .form-messages {
+        margin-bottom: 20px;
+    }
+
+    .message-success {
+        background: #d1fae5;
+        color: #065f46;
+        border: 1px solid #a7f3d0;
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin-bottom: 20px;
+    }
+
+    .message-error {
+        background: #fee2e2;
+        color: #991b1b;
+        border: 1px solid #fecaca;
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin-bottom: 20px;
+    }
+
+    .message-info {
+        background: #dbeafe;
+        color: #1e40af;
+        border: 1px solid #93c5fd;
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin-bottom: 20px;
+    }
+
+    /* ********************************************************** */
+    /* RESPONSIVE DESIGN */
+    /* ********************************************************** */
+
+    /* Desktop */
+    @media (min-width: 1024px) {
+        .order-layout {
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        .order-detail-content {
+            padding: 40px;
+        }
+
+        .order-detail-header {
+            padding: 30px 40px;
+        }
+    }
+
+    /* Tablettes */
+    @media (min-width: 768px) and (max-width: 1023px) {
+        .order-layout {
+            grid-template-columns: 1fr;
+        }
+
+        .status-form .form-group {
+            display: flex;
+            gap: 15px;
+            align-items: end;
+        }
+
+        .form-select {
+            flex: 1;
+        }
+
+        .submit-button {
+            width: auto;
+            min-width: 140px;
+        }
+    }
+
+    /* Mobiles */
+    @media (max-width: 767px) {
+        .order-detail-page {
+            padding: 15px;
+        }
+
+        .order-detail-container {
+            margin: 10px auto;
+            border-radius: 12px;
+        }
+
+        .order-detail-header {
+            padding: 20px;
+        }
+
+        .order-detail-title {
+            font-size: 1.6rem;
+        }
+
+        .order-detail-content {
+            padding: 20px;
+        }
+
+        .info-card {
+            padding: 20px;
+        }
+
+        .current-status {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .header-actions {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .nav-button {
+            align-self: flex-start;
+        }
+    }
+
+    /* Très petits mobiles */
+    @media (max-width: 375px) {
+        .order-detail-page {
+            padding: 10px;
+        }
+
+        .order-detail-container {
+            margin: 5px auto;
+        }
+
+        .order-detail-header {
+            padding: 15px;
+        }
+
+        .order-detail-title {
+            font-size: 1.4rem;
+        }
+
+        .order-detail-content {
+            padding: 15px;
+        }
+
+        .info-card {
+            padding: 16px;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+        }
+
+        .status-badge {
+            padding: 8px 16px;
+            font-size: 0.75rem;
+        }
+
+        .form-select, .submit-button, .delete-button {
+            padding: 10px 14px;
+            font-size: 0.9rem;
+        }
+    }
+
+    /* Mode paysage mobile */
+    @media (max-height: 500px) and (orientation: landscape) {
+        .order-detail-page {
+            padding: 10px;
+        }
+
+        .order-detail-container {
+            margin: 10px auto;
+        }
+    }
+
+    /* Animation d'entrée */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .order-detail-container {
+        animation: fadeInUp 0.6s ease-out;
+    }
+
+    /* Accessibilité */
+    @media (prefers-reduced-motion: reduce) {
+        .order-detail-container, .nav-button, .info-card, .submit-button, .delete-button {
+            animation: none;
+            transition: none;
+        }
+    }
+</style>
+{% endblock extra_head %}
+
+{% block content %}
+<div class="order-detail-page">
+    <div class="order-detail-container">
+        <header class="order-detail-header">
+            <h1 class="order-detail-title">
+                Détail Commande <span class="order-number">#{{ order.id }}</span>
+            </h1>
+
+            <div class="header-actions">
+                <a href="{% url 'admin_order_list' %}" class="nav-button">
+                    ← Retour aux Commandes
+                </a>
+            </div>
+        </header>
+
+        <div class="order-detail-content">
+            {% if messages %}
+                <div class="form-messages">
+                    {% for message in messages %}
+                        <div class="{% if message.tags == 'success' %}message-success{% elif message.tags == 'error' %}message-error{% else %}message-info{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <div class="order-layout">
+                <!-- Colonne principale -->
+                <div class="space-y-6">
+                    <!-- Section Statut -->
+                    <div class="info-card status-section">
+                        <h2 class="card-title">Statut Actuel & Mise à Jour</h2>
+
+                        <div class="current-status">
+                            <span class="status-label">Statut :</span>
+                            <span class="status-badge status-{{ order.status|lower }}">
+                                {{ order.get_status_display }}
+                            </span>
+                        </div>
+
+                        <form method="post" class="status-form">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="status-select" class="form-label">
+                                    Changer le statut à :
+                                </label>
+                                <select name="status" id="status-select" class="form-select">
+                                    {% for key, value in ORDER_STATUS_CHOICES %}
+                                        <option value="{{ key }}" {% if key == order.status %}selected{% endif %}>
+                                            {{ value }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <button type="submit" class="submit-button">
+                                💾 Enregistrer le Statut
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Section Actions Administratives -->
+                    <div class="info-card danger-section">
+                        <h2 class="card-title danger-title">Actions Administratives</h2>
+
+                        <div class="warning-text">
+                            ⚠️ <strong>Attention :</strong> La suppression de la commande est irréversible et supprime toutes les données associées.
+                        </div>
+
+                        <form method="post"
+                              action="{% url 'admin_order_delete' order_id=order.id %}"
+                              onsubmit="return confirm('Êtes-vous SÛR de vouloir SUPPRIMER la commande #{{ order.id }} ? Cette action est définitive.');">
+                            {% csrf_token %}
+                            <button type="submit" class="delete-button">
+                                🗑️ SUPPRIMER LA COMMANDE
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Section Informations Client -->
+                    <div class="info-card">
+                        <h2 class="card-title">Détails du Client</h2>
+
+                        <div class="client-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Nom complet :</span>
+                                <span class="detail-value">{{ order.full_name }}</span>
+                            </div>
+
+                            {% if order.email %}
+                            <div class="detail-item">
+                                <span class="detail-label">Email :</span>
+                                <span class="detail-value">{{ order.email }}</span>
+                            </div>
+                            {% endif %}
+
+                            <div class="detail-item">
+                                <span class="detail-label">Téléphone :</span>
+                                <span class="detail-value">{{ order.phone_number }}</span>
+                            </div>
+
+                            <div class="detail-item">
+                                <span class="detail-label">Adresse de livraison :</span>
+                                <span class="detail-value address-value">{{ order.address_line_1|linebreaksbr }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Colonne latérale -->
+                <div class="space-y-6">
+                    <!-- Section Récapitulatif -->
+                    <div class="info-card summary-section">
+                        <h2 class="card-title summary-title">Récapitulatif</h2>
+
+                        <div class="summary-items">
+                            <div class="summary-item">
+                                <span class="summary-label">Date de la commande :</span>
+                                {% language 'fr' %}
+                                <span class="summary-value">{{ order.created_at|date:"d M Y H:i" }}</span>
+                                {% endlanguage %}
+                            </div>
+
+                            <div class="summary-item">
+                                <span class="summary-label">Méthode de paiement :</span>
+                                <span class="summary-value">{{ order.payment_method|default:"Non spécifié" }}</span>
+                            </div>
+
+                            <div class="summary-item summary-total">
+                                <span class="summary-label">Total :</span>
+                                <span class="summary-value">{{ order.total_price|default:"0.00" }} LR</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section Articles Commandés -->
+            <div class="items-section">
+                <h2 class="items-title">Articles Commandés ({{ order_items|length }})</h2>
+
+                <div class="table-container">
+                    <table class="items-table">
+                        <thead class="table-header">
+                            <tr>
+                                <th>Produit</th>
+                                <th>Taille</th>
+                                <th>Prix Unitaire</th>
+                                <th>Quantité</th>
+                                <th class="text-right">Sous-Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in order_items %}
+                            <tr class="table-row">
+                                <td class="product-name">{{ item.product_name }}</td>
+                                <td class="product-size">{{ item.size }}</td>
+                                <td class="product-price">{{ item.price|default:"0.00" }} LR</td>
+                                <td class="product-quantity">{{ item.quantity }}</td>
+                                <td class="product-subtotal">{{ item.get_cost|default:"0.00" }} LR</td>
+                            </tr>
+                            {% endfor %}
+
+                            {% if not order_items %}
+                            <tr>
+                                <td colspan="5" class="empty-items">
+                                    Aucun article trouvé pour cette commande.
+                                </td>
+                            </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

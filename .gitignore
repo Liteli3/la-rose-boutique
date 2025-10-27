@@ -1,0 +1,24 @@
+
+# Python
+__pycache__/
+*.pyc
+
+# Virtual Environment
+.venv/
+venv/
+env/
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+datbackup.json
+/media/ # Exclure tous les fichiers media (y compris les images)
+
+# IDE / Editeurs
+.idea/
+.vscode/
+
+# Build Artefacts
+dist/
+build/

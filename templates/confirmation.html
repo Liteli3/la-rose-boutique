@@ -1,0 +1,428 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Confirmation de commande - LA ROSE BOUTIQUE{% endblock %}
+
+{% block extra_head %}
+<style>
+    /* Styles spécifiques pour la page de confirmation */
+    .confirmation-page {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .confirmation-container {
+        background-color: white;
+        padding: 40px;
+        border-radius: 16px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        width: 100%;
+        max-width: 700px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Effet de décoration */
+    .confirmation-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #4CAF50, #45a049, #4CAF50);
+    }
+
+    /* Icône de succès */
+    .success-icon {
+        font-size: 4rem;
+        margin-bottom: 20px;
+        animation: bounce 1s ease-in-out;
+    }
+
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {
+            transform: translateY(0);
+        }
+        40% {
+            transform: translateY(-10px);
+        }
+        60% {
+            transform: translateY(-5px);
+        }
+    }
+
+    h1 {
+        color: #4CAF50;
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+        font-weight: 700;
+    }
+
+    .confirmation-message {
+        font-size: 1.3rem;
+        color: #555;
+        margin-bottom: 30px;
+        line-height: 1.6;
+    }
+
+    .order-details {
+        border-top: 2px solid #f0f0f0;
+        margin-top: 30px;
+        padding-top: 30px;
+        text-align: left;
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 25px;
+    }
+
+    .order-details h2 {
+        color: #333;
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        text-align: center;
+        border-bottom: 2px solid #4CAF50;
+        padding-bottom: 10px;
+    }
+
+    .detail-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .detail-row:last-child {
+        border-bottom: none;
+    }
+
+    .detail-label {
+        font-weight: 600;
+        color: #555;
+        font-size: 1rem;
+    }
+
+    .detail-value {
+        color: #333;
+        font-weight: 500;
+        font-size: 1rem;
+        text-align: right;
+    }
+
+    .total-price {
+        background: linear-gradient(135deg, #4CAF50, #45a049);
+        color: white;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 15px;
+        font-weight: 700;
+        font-size: 1.3rem;
+    }
+
+    .back-to-store {
+        display: inline-block;
+        margin-top: 35px;
+        padding: 15px 35px;
+        background: linear-gradient(135deg, #6c757d, #5a6268);
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+    }
+
+    .back-to-store:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(108, 117, 125, 0.4);
+        background: linear-gradient(135deg, #5a6268, #495057);
+        color: white;
+        text-decoration: none;
+    }
+
+    /* Message de remerciement supplémentaire */
+    .thank-you-note {
+        background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+        padding: 20px;
+        border-radius: 10px;
+        margin: 25px 0;
+        border-left: 4px solid #4CAF50;
+    }
+
+    .thank-you-note p {
+        margin: 0;
+        color: #555;
+        font-size: 1.1rem;
+        line-height: 1.5;
+    }
+
+    /* ********************************************************** */
+    /* RESPONSIVE DESIGN */
+    /* ********************************************************** */
+
+    /* Tablettes */
+    @media (max-width: 768px) {
+        .confirmation-page {
+            padding: 15px;
+        }
+
+        .confirmation-container {
+            padding: 30px;
+            margin: 15px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+        }
+
+        .confirmation-message {
+            font-size: 1.2rem;
+        }
+
+        .success-icon {
+            font-size: 3.5rem;
+        }
+
+        .order-details {
+            padding: 20px;
+        }
+
+        .order-details h2 {
+            font-size: 1.3rem;
+        }
+    }
+
+    /* Mobiles */
+    @media (max-width: 480px) {
+        .confirmation-page {
+            padding: 10px;
+            align-items: flex-start;
+        }
+
+        .confirmation-container {
+            padding: 25px 20px;
+            margin: 10px;
+            border-radius: 12px;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+        }
+
+        .confirmation-message {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+        }
+
+        .success-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .order-details {
+            padding: 18px;
+            margin-top: 25px;
+            padding-top: 20px;
+        }
+
+        .order-details h2 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .detail-row {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 10px 0;
+            gap: 5px;
+        }
+
+        .detail-value {
+            text-align: left;
+            width: 100%;
+        }
+
+        .total-price {
+            padding: 12px;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .back-to-store {
+            padding: 12px 25px;
+            font-size: 1rem;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .thank-you-note {
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .thank-you-note p {
+            font-size: 1rem;
+        }
+    }
+
+    /* Très petits mobiles */
+    @media (max-width: 375px) {
+        .confirmation-container {
+            padding: 20px 15px;
+        }
+
+        h1 {
+            font-size: 1.6rem;
+        }
+
+        .confirmation-message {
+            font-size: 1rem;
+        }
+
+        .success-icon {
+            font-size: 2.5rem;
+        }
+
+        .order-details {
+            padding: 15px;
+        }
+
+        .order-details h2 {
+            font-size: 1.1rem;
+        }
+
+        .detail-label, .detail-value {
+            font-size: 0.9rem;
+        }
+
+        .back-to-store {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+        }
+    }
+
+    /* Mode paysage mobile */
+    @media (max-height: 500px) and (orientation: landscape) {
+        .confirmation-page {
+            padding: 10px;
+            align-items: flex-start;
+        }
+
+        .confirmation-container {
+            margin: 10px auto;
+            padding: 20px;
+        }
+
+        .success-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .confirmation-message {
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
+        .order-details {
+            margin-top: 20px;
+            padding-top: 15px;
+        }
+    }
+
+    /* Animation d'entrée */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .confirmation-container {
+        animation: fadeInUp 0.6s ease-out;
+    }
+
+    /* Amélioration de l'accessibilité */
+    @media (prefers-reduced-motion: reduce) {
+        .success-icon, .confirmation-container {
+            animation: none;
+        }
+    }
+</style>
+{% endblock extra_head %}
+
+{% block content %}
+<div class="confirmation-page">
+    <div class="confirmation-container">
+        <div class="success-icon">✅</div>
+
+        <h1>Commande validée !</h1>
+
+        <p class="confirmation-message">
+            Merci pour votre achat ! Votre commande a été reçue avec succès et est en cours de traitement.
+        </p>
+
+        <div class="thank-you-note">
+            <p>
+                <strong>📞 Prochaines étapes :</strong><br>
+                Notre équipe va vous contacter dans les plus brefs délais pour confirmer
+                votre commande et organiser la livraison.
+            </p>
+        </div>
+
+        <div class="order-details">
+            <h2>Détails de la commande</h2>
+
+            <div class="detail-row">
+                <span class="detail-label">Numéro de commande :</span>
+                <span class="detail-value">#{{ order.id }}</span>
+            </div>
+
+            <div class="detail-row">
+                <span class="detail-label">Nom du client :</span>
+                <span class="detail-value">{{ order.full_name }}</span>
+            </div>
+
+            <div class="detail-row">
+                <span class="detail-label">Adresse de livraison :</span>
+                <span class="detail-value">{{ order.address_line_1 }}</span>
+            </div>
+
+            <div class="detail-row">
+                <span class="detail-label">Téléphone :</span>
+                <span class="detail-value">{{ order.phone_number }}</span>
+            </div>
+
+            <div class="detail-row">
+                <span class="detail-label">Mode de paiement :</span>
+                <span class="detail-value">{{ order.payment_method }}</span>
+            </div>
+
+            <div class="total-price">
+                <span class="detail-label">Prix total :</span>
+                <span class="detail-value">{{ order.total_price }} LR</span>
+            </div>
+        </div>
+
+        <a href="{% url 'store' %}" class="back-to-store">
+            🏪 Retour à la boutique
+        </a>
+    </div>
+</div>
+{% endblock content %}

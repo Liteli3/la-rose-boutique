@@ -1,0 +1,513 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    {% if category %}Modifier la catégorie - {{ category.name }}{% else %}Ajouter une catégorie{% endif %}
+{% endblock %}
+
+{% block extra_head %}
+<script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/jquery.init.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/admin/RelatedObjectLookups.js' %}"></script>
+
+<style>
+    /* Styles spécifiques pour le formulaire de catégorie */
+    .category-form-page {
+        background: linear-gradient(135deg, #a0c4ff 0%, #bdb2ff 100%);
+        min-height: 100vh;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .category-form-container {
+        background: white;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 500px;
+        border: 1px solid #e1e5e9;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Effet de décoration subtil */
+    .category-form-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #74C69D, #52B788, #74C69D);
+    }
+
+    .category-form-header {
+        text-align: center;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid #f0f4f8;
+    }
+
+    .category-form-title {
+        color: #1e293b;
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+        background: linear-gradient(135deg, #89C2D9, #468FAF);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .category-form-subtitle {
+        color: #64748b;
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    /* Formulaire */
+    .category-form {
+        width: 100%;
+    }
+
+    .form-group {
+        margin-bottom: 24px;
+    }
+
+    .form-label {
+        display: block;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 8px;
+        font-size: 0.95rem;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: #fafbfc;
+        box-sizing: border-box;
+    }
+
+    .form-input:focus {
+        outline: none;
+        border-color: #89C2D9;
+        background: white;
+        box-shadow: 0 0 0 3px rgba(137, 194, 217, 0.1);
+    }
+
+    .form-errors {
+        color: #dc3545;
+        font-size: 0.85rem;
+        margin-top: 6px;
+        display: block;
+    }
+
+    /* Bouton de soumission */
+    .submit-button {
+        width: 100%;
+        padding: 14px 24px;
+        background: linear-gradient(135deg, #89C2D9, #468FAF);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 10px;
+        box-shadow: 0 4px 12px rgba(137, 194, 217, 0.3);
+    }
+
+    .submit-button:hover {
+        background: linear-gradient(135deg, #74B3CE, #3A7CA5);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(137, 194, 217, 0.4);
+    }
+
+    .submit-button:active {
+        transform: translateY(0);
+    }
+
+    .delete-button {
+        width: 100%;
+        padding: 12px 24px;
+        background-color: #dc3545; /* Rouge pour la suppression */
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 15px;
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+    }
+
+    .delete-button:hover {
+        background-color: #c82333;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(220, 53, 69, 0.4);
+    }
+
+    .form-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 25px;
+    }
+
+    /* Boutons dans les actions */
+    .form-actions button,
+    .form-actions a {
+        flex: 1; /* Remplir l'espace */
+    }
+
+
+    /* Navigation optionnelle */
+    .form-navigation {
+        text-align: center;
+        margin-top: 25px;
+        padding-top: 20px;
+        border-top: 1px solid #f1f5f9;
+    }
+
+    .back-link {
+        color: #64748b;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.9rem;
+        transition: color 0.3s ease;
+    }
+
+    .back-link:hover {
+        color: #374151;
+        text-decoration: underline;
+    }
+
+    /* Messages Django */
+    .form-messages {
+        margin-bottom: 20px;
+    }
+
+    .message-success {
+        background: #d1fae5;
+        color: #065f46;
+        border: 1px solid #a7f3d0;
+        border-radius: 8px;
+        padding: 12px 16px;
+        font-size: 0.9rem;
+    }
+
+    .message-error {
+        background: #fee2e2;
+        color: #991b1b;
+        border: 1px solid #fecaca;
+        border-radius: 8px;
+        padding: 12px 16px;
+        font-size: 0.9rem;
+    }
+
+    .message-info {
+        background: #dbeafe;
+        color: #1e40af;
+        border: 1px solid #93c5fd;
+        border-radius: 8px;
+        padding: 12px 16px;
+        font-size: 0.9rem;
+    }
+
+    /* Style pour les champs Django form.as_p */
+    .category-form p {
+        margin: 0 0 24px 0;
+    }
+
+    .category-form label {
+        display: block;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 8px;
+        font-size: 0.95rem;
+    }
+
+    .category-form input[type="text"] {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: #fafbfc;
+        box-sizing: border-box;
+    }
+
+    .category-form input[type="text"]:focus {
+        outline: none;
+        border-color: #89C2D9;
+        background: white;
+        box-shadow: 0 0 0 3px rgba(137, 194, 217, 0.1);
+    }
+
+    .category-form .errorlist {
+        color: #dc3545;
+        font-size: 0.85rem;
+        margin-top: 6px;
+        padding-left: 0;
+        list-style: none;
+    }
+
+    .category-form .errorlist li {
+        margin-bottom: 4px;
+    }
+
+    /* ********************************************************** */
+    /* RESPONSIVE DESIGN */
+    /* ********************************************************** */
+
+    /* Tablettes */
+    @media (max-width: 768px) {
+        .category-form-page {
+            padding: 15px;
+        }
+
+        .category-form-container {
+            padding: 25px;
+            max-width: 450px;
+        }
+
+        .category-form-title {
+            font-size: 1.8rem;
+        }
+    }
+
+    /* Mobiles */
+    @media (max-width: 480px) {
+        .category-form-page {
+            padding: 10px;
+            align-items: flex-start;
+        }
+
+        .category-form-container {
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 12px;
+        }
+
+        .category-form-title {
+            font-size: 1.6rem;
+        }
+
+        .category-form-subtitle {
+            font-size: 0.9rem;
+        }
+
+        .form-input {
+            padding: 10px 14px;
+            font-size: 16px; /* Évite le zoom automatique sur iOS */
+        }
+
+        .submit-button {
+            padding: 12px 20px;
+            font-size: 1rem;
+        }
+    }
+
+    /* Très petits mobiles */
+    @media (max-width: 375px) {
+        .category-form-page {
+            padding: 10px;
+        }
+
+        .category-form-container {
+            padding: 18px;
+            margin: 10px 0;
+        }
+
+        .category-form-title {
+            font-size: 1.4rem;
+        }
+
+        .category-form-subtitle {
+            font-size: 0.85rem;
+        }
+
+        .form-input {
+            padding: 8px 12px;
+        }
+
+        .submit-button {
+            padding: 10px 16px;
+            font-size: 0.95rem;
+        }
+    }
+
+    /* Mode paysage mobile */
+    @media (max-height: 500px) and (orientation: landscape) {
+        .category-form-page {
+            padding: 10px;
+            align-items: flex-start;
+        }
+
+        .category-form-container {
+            margin: 10px auto;
+            padding: 20px;
+        }
+    }
+
+    /* Animation d'entrée */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .category-form-container {
+        animation: fadeInUp 0.6s ease-out;
+    }
+
+    /* Accessibilité */
+    @media (prefers-reduced-motion: reduce) {
+        .category-form-container, .submit-button {
+            animation: none;
+            transition: none;
+        }
+    }
+
+    /* Mode sombre (optionnel) */
+    @media (prefers-color-scheme: dark) {
+        .category-form-container {
+            background: #1f2937;
+            color: #f9fafb;
+        }
+
+        .category-form-title {
+            background: linear-gradient(135deg, #89C2D9, #468FAF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .category-form-subtitle {
+            color: #d1d5db;
+        }
+
+        .form-label {
+            color: #e5e7eb;
+        }
+
+        .form-input {
+            background: #374151;
+            border-color: #4b5563;
+            color: #f9fafb;
+        }
+
+        .form-input:focus {
+            border-color: #89C2D9;
+            background: #4b5563;
+        }
+
+        .back-link {
+            color: #9ca3af;
+        }
+
+        .back-link:hover {
+            color: #d1d5db;
+        }
+    }
+</style>
+{% endblock extra_head %}
+
+{% block content %}
+<div class="category-form-page">
+    <div class="category-form-container">
+        <header class="category-form-header">
+            {% if category %}
+                <h1 class="category-form-title">Modifier la Catégorie</h1>
+                <p class="category-form-subtitle">Éditez **{{ category.name }}** ou supprimez-la</p>
+            {% else %}
+                <h1 class="category-form-title">Créer une Catégorie</h1>
+                <p class="category-form-subtitle">Ajoutez une nouvelle catégorie à votre catalogue</p>
+            {% endif %}
+        </header>
+
+        {% if messages %}
+            <div class="form-messages">
+                {% for message in messages %}
+                    <div class="{% if message.tags == 'success' %}message-success{% elif message.tags == 'error' %}message-error{% else %}message-info{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form action="{% if category %}{% url 'edit_category' category.pk %}{% else %}{% url 'create_category' %}{% endif %}" method="post" class="category-form">
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <div class="form-actions">
+                <button type="submit" class="submit-button">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    {% if category %}Enregistrer les Modifications{% else %}Enregistrer la Catégorie{% endif %}
+                </button>
+            </div>
+        </form>
+
+        {% if category %}
+            <form action="{% url 'delete_category' category.pk %}" method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer la catégorie {{ category.name }} ? Ceci pourrait impacter des produits.');" class="category-form">
+                {% csrf_token %}
+                <button type="submit" class="delete-button">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
+                    Supprimer la Catégorie
+                </button>
+            </form>
+        {% endif %}
+
+        <div class="form-navigation">
+            <a href="javascript:history.back()" class="back-link">
+                ← Retour
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Script pour s'assurer que le pop-up se ferme correctement après la soumission réussie
+    (function($) {
+        $(document).ready(function() {
+            var form = $('.category-form');
+            form.on('submit', function(e) {
+                // Si la soumission est un succès (gérée par la vue), la vue appellera dismissAddAnotherPopup(window, newId, newLabel)
+                // Nous laissons la vue Django gérer cela.
+            });
+
+            // Gère le retour au parent si le formulaire est dans un pop-up (la logique Django admin le gère, c'est juste une bonne pratique)
+            if (window.opener && window.opener.dismissAddAnotherPopup) {
+                // Mettre à jour l'URL de retour pour qu'elle ne renvoie pas à la liste des produits mais ferme la fenêtre
+                $('.form-navigation .back-link').attr('href', 'javascript:window.close()');
+            }
+        });
+    })(jQuery || django.jQuery);
+</script>
+{% endblock content %}

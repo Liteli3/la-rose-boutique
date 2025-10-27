@@ -1,0 +1,229 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}LA ROSE BOUTIQUE{% endblock %}
+
+{% block extra_head %}
+<!-- Import de la police Restora -->
+<link href="https://fonts.googleapis.com/css2?family=Restora&display=swap" rel="stylesheet">
+
+<style>
+    /* Reset du main pour cette page spécifique */
+    main {
+        padding: 0 !important;
+        max-width: none !important;
+        margin: 0 !important;
+    }
+
+    /* Conteneur principal de la page d'accueil */
+    .home-container {
+        min-height: 100vh;
+        background-image: url('{% static "photoacceuillaros.jpg" %}');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-color: #000;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: #f5f5dc;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        padding: 1rem;
+        box-sizing: border-box;
+    }
+
+    /* Overlay pour améliorer la lisibilité */
+    .home-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.3);
+        z-index: 1;
+    }
+
+    /* Contenu au-dessus de l'overlay */
+    .home-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        width: 100%;
+        max-width: 95vw; /* LIMITE LA LARGEUR MAXIMALE */
+        padding: 0 1rem;
+        box-sizing: border-box;
+    }
+
+    /* Titre principal - CORRIGÉ POUR PETITS ÉCRANS */
+    .home-title {
+        font-family: 'Restora', serif;
+        font-size: clamp(2.5rem, 8vw, 6rem); /* TAILLE DYNAMIQUE AVEC CLAMP() */
+        text-align: center;
+        color: #f5f5dc;
+        text-shadow: 2px 2px 4px #000000;
+        margin-bottom: 2rem;
+        font-weight: normal;
+        white-space: nowrap;
+        overflow: visible; /* PERMET DE VOIR LE TEXTE COMPLET */
+        line-height: 1.1;
+        width: 100%;
+        max-width: 100%;
+        word-wrap: normal;
+    }
+
+    /* BOUTON PRINCIPAL */
+    .bouton {
+        display: inline-block;
+        padding: 1rem 2.5rem;
+        font-size: 1.25rem;
+        font-weight: 600;
+        text-decoration: none;
+        color: #f5f5dc;
+        background-color: rgba(0, 0, 0, 0.7);
+        border: 2px solid #f5f5dc;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .bouton:hover {
+        background-color: rgba(0, 0, 0, 0.9);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        border-color: #fff;
+    }
+
+    /* LIEN PANIER */
+    .panier-link-accueil {
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        z-index: 3;
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        font-weight: 600;
+        text-decoration: none;
+        color: #f5f5dc;
+        background-color: rgba(0, 0, 0, 0.7);
+        border: 2px solid #f5f5dc;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .panier-link-accueil:hover {
+        background-color: rgba(0, 0, 0, 0.9);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* ********************************************************** */
+    /* CORRECTIONS SPÉCIFIQUES POUR LES PETITS ÉCRANS */
+    /* ********************************************************** */
+
+    /* Pour les écrans très étroits où "BOUTIQUE" dépasse */
+    @media (max-width: 380px) {
+        .home-title {
+            white-space: normal; /* AUTORISE LE RETOUR À LA LIGNE SI NÉCESSAIRE */
+            font-size: clamp(2rem, 7vw, 2.5rem); /* TAILLE PLUS PETITE */
+            line-height: 1.2;
+            word-break: keep-all; /* ÉVITE DE COUPER LES MOTS */
+        }
+    }
+
+    /* Solution alternative : réduire l'espacement des lettres */
+    @media (max-width: 420px) {
+        .home-title {
+            letter-spacing: -0.5px; /* RÉDUIT L'ESPACEMENT */
+            padding: 0 0.25rem; /* RÉDUIT ENCORE LE PADDING */
+        }
+    }
+
+    /* Mode paysage sur mobile */
+    @media (max-height: 500px) and (orientation: landscape) {
+        .home-container {
+            min-height: 100vh;
+            padding: 0.5rem;
+        }
+
+        .home-title {
+            font-size: clamp(2rem, 6vw, 3rem);
+            margin-bottom: 1rem;
+        }
+
+        .bouton {
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+        }
+    }
+
+    /* Pour les écrans extrêmement étroits (iPhone 5/SE) */
+    @media (max-width: 320px) {
+        .home-title {
+            font-size: 1.8rem;
+            letter-spacing: -1px;
+            white-space: normal; /* RETOUR À LA LIGNE FORCÉ */
+            line-height: 1.3;
+        }
+
+        .home-content {
+            padding: 0 0.5rem;
+        }
+    }
+</style>
+{% endblock extra_head %}
+
+{% block content %}
+<div class="home-container">
+    <a href="{% url 'cart' %}" class="panier-link-accueil">Panier</a>
+
+    <div class="home-content">
+        <h1 class="home-title">LA ROSE BOUTIQUE</h1>
+        <a href="{% url 'store' %}" class="bouton">Visiter la boutique</a>
+    </div>
+</div>
+{% endblock content %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.style.margin = '0';
+        document.body.style.padding = '0';
+
+        // Cacher les messages sur la page d'accueil
+        const messagesContainer = document.querySelector('.js-messages-container');
+        if (messagesContainer) {
+            messagesContainer.style.display = 'none';
+        }
+
+        // Détection automatique des petits écrans
+        function adjustTitleForSmallScreens() {
+            const title = document.querySelector('.home-title');
+            const container = document.querySelector('.home-content');
+
+            if (title && container) {
+                const titleWidth = title.scrollWidth;
+                const containerWidth = container.clientWidth;
+
+                // Si le titre dépasse du conteneur sur petit écran
+                if (titleWidth > containerWidth && window.innerWidth < 420) {
+                    title.style.whiteSpace = 'normal';
+                    title.style.fontSize = '2rem';
+                }
+            }
+        }
+
+        // Exécuter au chargement et au redimensionnement
+        adjustTitleForSmallScreens();
+        window.addEventListener('resize', adjustTitleForSmallScreens);
+    });
+</script>
+{% endblock extra_js %}

@@ -1,0 +1,219 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration - Détail Commande #{{ order.id }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-blue': '#4a5568',
+                        'caramel': '#D29C6B',
+                        'caramel-dark': '#B98555',
+                        // Couleurs de statut (comme défini dans order_list.html)
+                        'status-pending': '#fef3c7', /* yellow-100 */
+                        'status-processing': '#bfdbfe', /* blue-200 */
+                        'status-shipped': '#dbeafe', /* blue-100 */
+                        'status-delivered': '#d1fae5', /* green-100 */
+                        'status-cancelled': '#fee2e2', /* red-100 */
+                    },
+                    textColor: {
+                        'status-pending': '#b45309', /* yellow-800 */
+                        'status-processing': '#1e40af', /* blue-800 */
+                        'status-shipped': '#1d4ed8', /* blue-800 */
+                        'status-delivered': '#065f46', /* green-800 */
+                        'status-cancelled': '#991b1b', /* red-800 */
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body class="bg-[#e0effe] min-h-screen font-sans antialiased p-4 sm:p-8">
+
+    <div class="max-w-7xl mx-auto bg-white shadow-xl rounded-xl p-6 sm:p-10">
+
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-4 mb-6">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-primary-blue mb-2 sm:mb-0">
+                Détail Commande <span class="text-caramel">#{{ order.id }}</span>
+            </h1>
+
+            <a href="{% url 'admin_order_list'  %}"
+               class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm
+                      text-white bg-primary-blue hover:bg-gray-600 transition duration-150 ease-in-out">
+                ← Retour aux Commandes
+            </a>
+        </div>
+
+        {# Affichage des messages Django #}
+        {% if messages %}
+            <div class="mb-4">
+                {% for message in messages %}
+                    <div class="p-3 rounded-lg text-sm {% if message.tags == 'success' %}bg-green-100 text-green-800{% elif message.tags == 'error' %}bg-red-100 text-red-800{% else %}bg-blue-100 text-blue-800{% endif %}" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+            {# COLONNE 1 : INFORMATIONS CLIENT ET COMMANDE #}
+            <div class="lg:col-span-2 space-y-8">
+
+                {# Bloc de Statut et Mise à Jour #}
+                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 shadow-sm">
+                    <h2 class="text-xl font-bold text-primary-blue mb-4">Statut Actuel & Mise à Jour</h2>
+
+                    <div class="flex items-center justify-between mb-4 pb-4 border-b">
+                        <span class="text-lg font-semibold text-gray-700">Statut :</span>
+                        <span class="status-badge
+                            bg-status-{{ order.status|lower }} text-status-{{ order.status|lower }}"
+                        >
+                            {{ order.get_status_display }}
+                        </span>
+                    </div>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="flex flex-col sm:flex-row gap-3 items-end">
+                            <div class="flex-grow w-full">
+                                <label for="status-select" class="block text-sm font-medium text-gray-700 mb-1">
+                                    Changer le statut à :
+                                </label>
+                                <select name="status" id="status-select" class="w-full mt-1 block py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-caramel focus:border-caramel sm:text-sm">
+                                    {% for key, value in ORDER_STATUS_CHOICES %}
+                                        <option value="{{ key }}" {% if key == order.status %}selected{% endif %}>
+                                            {{ value }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <button type="submit"
+                                    class="w-full sm:w-auto px-6 py-2 bg-caramel text-white font-medium rounded-md shadow-md
+                                           hover:bg-caramel-dark transition duration-150 ease-in-out">
+                                Enregistrer
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="bg-red-50 p-6 rounded-lg border border-red-200 shadow-sm">
+                    <h2 class="text-xl font-bold text-red-800 mb-4">Actions Administratives</h2>
+                    <p class="text-sm text-red-600 mb-4">
+                        ⚠️ **Attention :** La suppression de la commande est irréversible et supprime toutes les données associées.
+                    </p>
+
+                    <form method="post"
+                          action="{% url 'admin_order_delete' order_id=order.id %}"
+                          onsubmit="return confirm('Êtes-vous SÛR de vouloir SUPPRIMER la commande #{{ order.id }} ? Cette action est définitive.');"
+                          style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit"
+                                class="w-full sm:w-auto px-6 py-2 bg-red-600 text-white font-medium rounded-md shadow-md
+                                       hover:bg-red-700 transition duration-150 ease-in-out">
+                            SUPPRIMER LA COMMANDE
+                        </button>
+                    </form>
+                </div>
+                {# Bloc Informations Client #}
+                <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
+                    <h2 class="text-xl font-bold text-primary-blue mb-4">Détails du Client</h2>
+                    <div class="space-y-3 text-gray-700">
+                        <p><strong>Nom complet :</strong> {{ order.full_name }}</p>
+                        {% if order.email %}<p><strong>Email :</strong> {{ order.email }}</p>{% endif %}
+                        <p><strong>Téléphone :</strong> {{ order.phone_number }}</p>
+                        <p><strong>Adresse de livraison :</strong> <br>{{ order.address_line_1|linebreaksbr }}</p>
+                    </div>
+                </div>
+            </div>
+
+            {# COLONNE 2 : RÉSUMÉ & ARTICLES COMMANDÉS #}
+            <div class="lg:col-span-1 space-y-8">
+
+                {# Bloc Résumé #}
+                <div class="bg-primary-blue p-6 rounded-lg text-white shadow-xl">
+                    <h2 class="text-xl font-bold mb-4 border-b border-white border-opacity-30 pb-2">Récapitulatif</h2>
+                    <div class="space-y-2 text-lg">
+                        <p class="flex justify-between">
+                            <span>Date de la commande :</span>
+                            {% language 'fr' %}
+                            <span class="font-medium">{{ order.created_at|date:"d M Y H:i" }}</span>
+                            {% endlanguage %}
+                        </p>
+                        <p class="flex justify-between">
+                            <span>Méthode de paiement :</span>
+                            <span class="font-medium">{{ order.payment_method|default:"Non spécifié" }}</span>
+                        </p>
+                        <p class="flex justify-between text-2xl pt-4 font-extrabold border-t border-white border-opacity-30 mt-4">
+                            <span>Total :</span>
+                            <span>{{ order.total_price|default:"0.00" }} LR</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# ARTICLES COMMANDÉS (Plein Largeur) #}
+        <div class="mt-10 bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
+            <h2 class="text-xl font-bold text-primary-blue mb-4">Articles Commandés ({{ order_items|length }})</h2>
+
+            <div class="overflow-x-auto rounded-lg border">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Produit</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Taille</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Prix Unitaire</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantité</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Sous-Total</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        {% for item in order_items %}
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                {{ item.product_name }} </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ item.size }} </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ item.price|default:"0.00" }} LR
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ item.quantity }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-right text-gray-700">
+                                {{ item.get_cost|default:"0.00" }} LR
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% if not order_items %}
+                <p class="text-gray-500 mt-4">Aucun article trouvé pour cette commande.</p>
+            {% endif %}
+
+        </div>
+
+    </div>
+</body>
+</html>

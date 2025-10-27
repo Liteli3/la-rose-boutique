@@ -1,0 +1,36 @@
+
+# LE  code  ici est pour definir la route vers chaque pages
+
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    # ... URLs du Front-end (home, store, cart, checkout, etc.) ...
+    path('', views.home, name='home'),
+    path('boutique/', views.store, name='store'),
+    path('ajouter_au_panier/', views.add_to_cart, name='add_to_cart'),
+    path('panier/', views.cart, name='cart'),
+    path('update_panier/<str:key>/', views.update_cart_quantity, name='update_cart_quantity'),
+    path('remove_from_cart/<str:key>/', views.remove_from_cart, name='remove_from_cart'),
+    path('commander/', views.checkout, name='checkout'),
+    path('confirmation/<int:order_id>/', views.confirmation, name='confirmation'),
+
+    # NOUVELLE URL AJAX pour le Polling du Stock
+    path('ajax/get_stock_data/', views.get_all_variant_stocks, name='get_stock_data'),
+
+    # URL d'Administration du Catalogue
+    path('admin/products/create/', views.admin_product_create, name='admin_product_create'),
+    path('admin/products/', views.admin_product_list, name='admin_product_list'),
+
+
+
+    # URL d'Administration du Catalogue (suite)
+    path('admin/products/edit/<int:product_id>/', views.admin_product_edit, name='admin_product_edit'),
+    path('admin/products/delete/<int:product_id>/', views.admin_product_delete, name='admin_product_delete'),
+
+
+    # URLs de GESTION DES CATÉGORIES
+    path('categories/create/', views.manage_category, name='create_category'),
+    path('categories/edit/<int:category_id>/', views.manage_category, name='edit_category'),
+    path('categories/delete/<int:category_id>/', views.delete_category, name='delete_category'),
+]

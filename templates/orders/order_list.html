@@ -1,0 +1,752 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Administration - Index des Commandes{% endblock %}
+
+{% block extra_head %}
+<style>
+    /* Styles spécifiques pour la liste des commandes admin */
+    .orders-list-page {
+        background: linear-gradient(135deg, #a0c4ff 0%, #bdb2ff 100%);
+        min-height: 100vh;
+        padding: 20px;
+    }
+
+    .orders-list-container {
+        max-width: 1400px;
+        margin: 20px auto;
+        background: white;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid #e1e5e9;
+    }
+
+    .orders-list-header {
+        background: linear-gradient(135deg, #89C2D9, #468FAF);
+        color: white;
+        padding: 25px 30px;
+        position: relative;
+    }
+
+    .orders-list-title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .orders-list-subtitle {
+        font-size: 1rem;
+        opacity: 0.9;
+        font-weight: 500;
+    }
+
+    .header-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .nav-button {
+        display: inline-flex;
+        align-items: center;
+        padding: 10px 20px;
+        background: #A5B4FC;
+        color: #1e3a8a;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-button:hover {
+        background: #8B9EFD;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(165, 180, 252, 0.4);
+    }
+
+    .orders-list-content {
+        padding: 30px;
+        background: #fafbfc;
+    }
+
+    /* Layout principal - Filtres compacts, commandes larges */
+    .orders-layout {
+        display: flex;
+        gap: 20px;
+    }
+
+    /* Filtres sidebar COMPACTE */
+    .filters-sidebar {
+        background: #f0f9ff;
+        padding: 20px;
+        border-radius: 12px;
+        border: 1px solid #bae6fd;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        width: 220px; /* Largeur fixe réduite */
+        flex-shrink: 0;
+    }
+
+    .filters-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #0c4a6e;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #7dd3fc;
+    }
+
+    .filter-links {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .filter-link {
+        display: block;
+        padding: 10px 12px;
+        border-radius: 8px;
+        font-weight: 500;
+        color: #374151;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: 1px solid transparent;
+        font-size: 0.85rem;
+    }
+
+    .filter-link:hover {
+        background: #e0f2fe;
+        color: #0c4a6e;
+        border-color: #7dd3fc;
+    }
+
+    .filter-link.active {
+        background: linear-gradient(135deg, #89C2D9, #468FAF);
+        color: white;
+        font-weight: 600;
+        box-shadow: 0 2px 8px rgba(137, 194, 217, 0.3);
+    }
+
+    /* Contenu des commandes - ESPACE MAXIMAL */
+    .orders-content {
+        flex: 1;
+        min-width: 0; /* Important pour le responsive */
+    }
+
+    .orders-stats {
+        background: white;
+        padding: 15px 20px;
+        border-radius: 12px;
+        border: 1px solid #e5e7eb;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .orders-count {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #374151;
+    }
+
+    /* Tableau desktop - PLEINE LARGEUR */
+    .table-container {
+        overflow-x: auto;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e5e7eb;
+        background: white;
+        width: 100%;
+    }
+
+    .orders-table {
+        width: 100%;
+        background: white;
+        border-collapse: collapse;
+        min-width: 800px; /* Largeur minimale pour le tableau */
+    }
+
+    .table-header {
+        background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+    }
+
+    .table-header th {
+        padding: 16px 20px;
+        text-align: left;
+        font-weight: 600;
+        color: #0c4a6e;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border-bottom: 2px solid #bae6fd;
+        white-space: nowrap;
+    }
+
+    .table-row {
+        transition: all 0.3s ease;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .table-row:hover {
+        background: #f8fafc;
+    }
+
+    .table-row td {
+        padding: 16px 20px;
+        font-size: 0.95rem;
+        white-space: nowrap;
+    }
+
+    .order-id {
+        font-weight: 700;
+        color: #1e293b;
+    }
+
+    .customer-name {
+        color: #374151;
+        font-weight: 500;
+    }
+
+    .order-date {
+        color: #64748b;
+        font-size: 0.9rem;
+    }
+
+    .order-total {
+        font-weight: 700;
+        color: #0f766e;
+    }
+
+    /* Badges de statut */
+    .status-badge {
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
+    }
+
+    .status-pending {
+        background: #fef3c7;
+        color: #b45309;
+    }
+
+    .status-processing {
+        background: #bfdbfe;
+        color: #1e40af;
+    }
+
+    .status-shipped {
+        background: #dbeafe;
+        color: #1d4ed8;
+    }
+
+    .status-delivered {
+        background: #d1fae5;
+        color: #065f46;
+    }
+
+    .status-cancelled {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    .actions-cell {
+        text-align: right;
+    }
+
+    .action-link {
+        padding: 8px 16px;
+        background: #dbeafe;
+        color: #1d4ed8;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.875rem;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+    }
+
+    .action-link:hover {
+        background: #3b82f6;
+        color: white;
+    }
+
+    /* Cartes mobiles */
+    .mobile-cards {
+        display: none;
+        gap: 16px;
+    }
+
+    .order-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e2e8f0;
+        transition: all 0.3s ease;
+    }
+
+    .order-card:hover {
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+    }
+
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 12px;
+    }
+
+    .card-order-id {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 8px;
+    }
+
+    .card-details {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-bottom: 16px;
+    }
+
+    .card-detail {
+        font-size: 0.875rem;
+        color: #475569;
+    }
+
+    .card-customer {
+        font-weight: 600;
+        color: #374151;
+    }
+
+    .card-date {
+        color: #64748b;
+        font-size: 0.8rem;
+    }
+
+    .card-actions {
+        display: flex;
+        justify-content: flex-end;
+        padding-top: 16px;
+        border-top: 1px solid #f1f5f9;
+    }
+
+    /* État vide */
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        background: #f8fafc;
+        border-radius: 12px;
+        border: 2px dashed #cbd5e1;
+        width: 100%;
+    }
+
+    .empty-icon {
+        font-size: 3rem;
+        color: #94a3b8;
+        margin-bottom: 16px;
+    }
+
+    .empty-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #475569;
+        margin-bottom: 8px;
+    }
+
+    .empty-description {
+        color: #64748b;
+        margin-bottom: 20px;
+    }
+
+    /* Messages Django */
+    .form-messages {
+        margin-bottom: 20px;
+    }
+
+    .message-success {
+        background: #d1fae5;
+        color: #065f46;
+        border: 1px solid #a7f3d0;
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin-bottom: 20px;
+    }
+
+    .message-error {
+        background: #fee2e2;
+        color: #991b1b;
+        border: 1px solid #fecaca;
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin-bottom: 20px;
+    }
+
+    .message-info {
+        background: #dbeafe;
+        color: #1e40af;
+        border: 1px solid #93c5fd;
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin-bottom: 20px;
+    }
+
+    /* ********************************************************** */
+    /* RESPONSIVE DESIGN */
+    /* ********************************************************** */
+
+    /* Desktop Large */
+    @media (min-width: 1200px) {
+        .filters-sidebar {
+            width: 200px; /* Encore plus compact sur grands écrans */
+        }
+
+        .orders-content {
+            flex: 1;
+        }
+    }
+
+    /* Desktop Standard */
+    @media (min-width: 1024px) {
+        .orders-list-content {
+            padding: 40px;
+        }
+
+        .orders-list-header {
+            padding: 30px 40px;
+        }
+    }
+
+    /* Tablettes */
+    @media (min-width: 768px) and (max-width: 1023px) {
+        .table-container {
+            display: block;
+        }
+
+        .mobile-cards {
+            display: none;
+        }
+
+        .filters-sidebar {
+            width: 180px; /* Plus compact sur tablette */
+        }
+    }
+
+    /* Mobiles */
+    @media (max-width: 767px) {
+        .orders-list-page {
+            padding: 15px;
+        }
+
+        .orders-list-container {
+            margin: 10px auto;
+            border-radius: 12px;
+        }
+
+        .orders-list-header {
+            padding: 20px;
+        }
+
+        .orders-list-title {
+            font-size: 1.6rem;
+        }
+
+        .orders-list-content {
+            padding: 20px;
+        }
+
+        .orders-layout {
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .filters-sidebar {
+            width: 100%;
+            order: 2; /* Filtres après le contenu sur mobile */
+        }
+
+        .orders-content {
+            order: 1; /* Contenu en premier sur mobile */
+        }
+
+        .table-container {
+            display: none;
+        }
+
+        .mobile-cards {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header-actions {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .nav-button {
+            align-self: flex-start;
+        }
+
+        .filter-links {
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .filter-link {
+            padding: 8px 12px;
+            font-size: 0.8rem;
+            text-align: center;
+            flex: 1;
+            min-width: 110px;
+        }
+    }
+
+    /* Très petits mobiles */
+    @media (max-width: 375px) {
+        .orders-list-page {
+            padding: 10px;
+        }
+
+        .orders-list-container {
+            margin: 5px auto;
+        }
+
+        .orders-list-header {
+            padding: 15px;
+        }
+
+        .orders-list-title {
+            font-size: 1.4rem;
+        }
+
+        .orders-list-content {
+            padding: 15px;
+        }
+
+        .order-card {
+            padding: 16px;
+        }
+
+        .filter-link {
+            padding: 6px 10px;
+            font-size: 0.75rem;
+            min-width: 90px;
+        }
+
+        .card-actions {
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .action-link {
+            text-align: center;
+            padding: 10px;
+        }
+    }
+
+    /* Mode paysage mobile */
+    @media (max-height: 500px) and (orientation: landscape) {
+        .orders-list-page {
+            padding: 10px;
+        }
+
+        .orders-list-container {
+            margin: 10px auto;
+        }
+    }
+
+    /* Animation d'entrée */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .orders-list-container {
+        animation: fadeInUp 0.6s ease-out;
+    }
+
+    /* Accessibilité */
+    @media (prefers-reduced-motion: reduce) {
+        .orders-list-container, .nav-button, .filter-link, .order-card {
+            animation: none;
+            transition: none;
+        }
+    }
+</style>
+{% endblock extra_head %}
+
+{% block content %}
+<div class="orders-list-page">
+    <div class="orders-list-container">
+        <header class="orders-list-header">
+            <h1 class="orders-list-title">Gestion des Commandes</h1>
+            <p class="orders-list-subtitle">Suivi et traitement des commandes clients</p>
+
+            <div class="header-actions">
+                <a href="{% url 'admin_dashboard' %}" class="nav-button">
+                    ← Retour au Tableau de Bord
+                </a>
+            </div>
+        </header>
+
+        <div class="orders-list-content">
+            {% if messages %}
+                <div class="form-messages">
+                    {% for message in messages %}
+                        <div class="{% if message.tags == 'success' %}message-success{% elif message.tags == 'error' %}message-error{% else %}message-info{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <div class="orders-layout">
+                <!-- Sidebar des filtres COMPACTE -->
+                <div class="filters-sidebar">
+                    <h3 class="filters-title">Filtrer par Statut</h3>
+
+                    {% url 'admin_order_list' as list_url %}
+                    {% with current_status=request.GET.status|default:"" %}
+
+                    <div class="filter-links">
+                        <a href="{{ list_url }}" class="filter-link {% if not current_status %}active{% endif %}">
+                            Toutes ({{ total_orders }})
+                        </a>
+
+                        <a href="{{ list_url }}?status=EN ATTENTE DE PAIEMENT" class="filter-link {% if current_status == 'EN ATTENTE DE PAIEMENT' %}active{% endif %}">
+                            En attente
+                        </a>
+
+                        <a href="{{ list_url }}?status=EN COURS DE TRAITEMENT" class="filter-link {% if current_status == 'EN COURS DE TRAITEMENT' %}active{% endif %}">
+                            En traitement
+                        </a>
+
+                        <a href="{{ list_url }}?status=EXPÉDIÉE" class="filter-link {% if current_status == 'EXPÉDIÉE' %}active{% endif %}">
+                            Expédiée
+                        </a>
+
+                        <a href="{{ list_url }}?status=LIVRÉE/PAYÉE" class="filter-link {% if current_status == 'LIVRÉE/PAYÉE' %}active{% endif %}">
+                            Livrée
+                        </a>
+
+                        <a href="{{ list_url }}?status=ANNULÉE" class="filter-link {% if current_status == 'ANNULÉE' %}active{% endif %}">
+                            Annulée
+                        </a>
+                    </div>
+
+                    {% endwith %}
+                </div>
+
+                <!-- Contenu des commandes - ESPACE MAXIMAL -->
+                <div class="orders-content">
+                    {% if orders %}
+                        <div class="orders-stats">
+                            <p class="orders-count">{{ orders|length }} commande(s) trouvée(s)</p>
+                        </div>
+
+                        <!-- Tableau Desktop - PLEINE LARGEUR -->
+                        <div class="table-container">
+                            <table class="orders-table">
+                                <thead class="table-header">
+                                    <tr>
+                                        <th>ID Commande</th>
+                                        <th>Client</th>
+                                        <th>Date</th>
+                                        <th>Total</th>
+                                        <th>Statut</th>
+                                        <th class="actions-cell">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for order in orders %}
+                                    <tr class="table-row">
+                                        <td class="order-id">#{{ order.id }}</td>
+                                        <td class="customer-name">{{ order.full_name }}</td>
+                                        <td class="order-date">{{ order.created_at|date:"d M Y H:i" }}</td>
+                                        <td class="order-total">{{ order.total_price|default:"0.00"|stringformat:".2f" }} LR</td>
+                                        <td>
+                                            <span class="status-badge status-{{ order.status|lower }}">
+                                                {{ order.get_status_display }}
+                                            </span>
+                                        </td>
+                                        <td class="actions-cell">
+                                            <a href="{% url 'admin_order_detail' order_id=order.id %}" class="action-link">
+                                                Voir Détails
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Cartes Mobiles -->
+                        <div class="mobile-cards">
+                            {% for order in orders %}
+                            <div class="order-card">
+                                <div class="card-header">
+                                    <span class="card-order-id">Commande #{{ order.id }}</span>
+                                    <span class="status-badge status-{{ order.status|lower }}">
+                                        {{ order.get_status_display }}
+                                    </span>
+                                </div>
+                                <div class="card-title">{{ order.total_price|default:"0.00"|stringformat:".2f" }} LR</div>
+                                <div class="card-details">
+                                    <p class="card-detail">
+                                        Client : <span class="card-customer">{{ order.full_name }}</span>
+                                    </p>
+                                    <p class="card-detail card-date">
+                                        Passée le {{ order.created_at|date:"d M Y" }}
+                                    </p>
+                                </div>
+                                <div class="card-actions">
+                                    <a href="{% url 'admin_order_detail' order_id=order.id %}" class="action-link">
+                                        Voir Détails →
+                                    </a>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                    {% else %}
+                        <div class="empty-state">
+                            <div class="empty-icon">📦</div>
+                            <h3 class="empty-title">Aucune commande</h3>
+                            <p class="empty-description">
+                                Il n'y a pas encore de commandes enregistrées pour ce filtre.
+                            </p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

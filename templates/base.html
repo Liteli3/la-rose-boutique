@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}La Rose Boutique{% endblock %}</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-blue': '#4a5568',
+                        'accent-green': '#48bb78',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-gray-50 min-h-screen font-sans antialiased text-gray-800">
+
+    <div class="max-w-6xl mx-auto px-2 sm:px-4 mt-4 js-messages-container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="p-4 rounded-lg shadow-md mb-3 flex items-center justify-between transition-opacity duration-300 opacity-100"
+                    role="alert"
+                    style="{% if message.tags == 'success' %}background-color: #d1fae5; color: #065f46; border: 1px solid #10b981;
+                           {% elif message.tags == 'error' %}background-color: #fee2e2; color: #991b1b; border: 1px solid #ef4444;
+                           {% elif message.tags == 'warning' %}background-color: #fffbeb; color: #92400e; border: 1px solid #f59e0b;
+                           {% else %}background-color: #e0f2fe; color: #075985; border: 1px solid #38bdf8;{% endif %}"
+                >
+                    <p class="font-medium text-sm">{{ message }}</p>
+                    <button onclick="this.parentElement.style.opacity='0'; setTimeout(() => this.parentElement.style.display='none', 300);"
+                            class="ml-4 text-sm font-semibold opacity-70 hover:opacity-100 focus:outline-none">
+                        &times;
+                    </button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <main class="max-w-6xl mx-auto px-2 py-4 sm:p-8">
+        {% block content %}
+        {% endblock content %}
+    </main>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

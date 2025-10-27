@@ -1,0 +1,668 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Tableau de Bord Administration{% endblock %}
+
+{% block extra_head %}
+<style>
+    /* Styles spécifiques pour le tableau de bord admin */
+    .dashboard-page {
+        background: linear-gradient(135deg, #a0c4ff 0%, #bdb2ff 100%);
+        min-height: 100vh;
+        padding: 20px;
+    }
+
+    .dashboard-container {
+        max-width: 1400px;
+        margin: 20px auto;
+        background: white;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid #e1e5e9;
+    }
+
+    .dashboard-header {
+        background: linear-gradient(135deg, #89C2D9, #468FAF);
+        color: white;
+        padding: 30px 40px;
+        position: relative;
+    }
+
+    .dashboard-title {
+        font-size: 2.2rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .dashboard-subtitle {
+        font-size: 1.1rem;
+        opacity: 0.9;
+        font-weight: 500;
+    }
+
+    .dashboard-content {
+        padding: 40px;
+        background: #fafbfc;
+    }
+
+    /* Cartes de statistiques */
+    .stats-grid {
+        display: grid;
+        /* CORRIGÉ: Adapté pour 3 cartes restantes, chaque carte prend 1/3 de l'espace sur les grands écrans */
+        grid-template-columns: repeat(3, 1fr);
+        gap: 25px;
+        margin-bottom: 40px;
+    }
+
+    /* Fallback pour les petits écrans pour s'assurer que ça reste responsive */
+    @media (max-width: 1024px) {
+        .stats-grid {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+    }
+
+
+    .stat-card {
+        background: white;
+        border-radius: 16px;
+        padding: 30px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e2e8f0;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .stat-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #74C69D, #52B788, #74C69D);
+    }
+
+    .stat-card:hover {
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        transform: translateY(-4px);
+    }
+
+    .stat-content {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .stat-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .stat-icon-pending {
+        background: linear-gradient(135deg, #fef3c7, #f59e0b);
+    }
+
+    .stat-icon-revenue {
+        background: linear-gradient(135deg, #d1fae5, #10b981);
+    }
+
+    .stat-icon-products {
+        background: linear-gradient(135deg, #dbeafe, #3b82f6);
+    }
+
+    .stat-icon-users {
+        background: linear-gradient(135deg, #f3e8ff, #8b5cf6);
+    }
+
+    .stat-info {
+        flex: 1;
+    }
+
+    .stat-label {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 4px;
+    }
+
+    .stat-value {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: #1e293b;
+        line-height: 1;
+    }
+
+    /* Section actions rapides */
+    .quick-actions-section {
+        margin-bottom: 40px;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #0c4a6e;
+        margin-bottom: 20px;
+        padding-bottom: 12px;
+        border-bottom: 2px solid #7dd3fc;
+    }
+
+    .actions-grid {
+        display: grid;
+        /* Ajusté pour 4 cartes (sans finance) */
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    .action-card {
+        background: white;
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e2e8f0;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .action-card:hover {
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        transform: translateY(-3px);
+        text-decoration: none;
+    }
+
+    .action-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        color: white;
+    }
+
+    .action-icon-catalog {
+        background: linear-gradient(135deg, #ec4899, #db2777);
+    }
+
+    .action-icon-create {
+        background: linear-gradient(135deg, #6366f1, #4f46e5);
+    }
+
+    .action-icon-orders {
+        background: linear-gradient(135deg, #3b82f6, #2563eb);
+    }
+
+    /* L'icône finance n'est plus utilisée, mais les styles suivants sont conservés pour l'Admin Django */
+    .action-icon-admin {
+        background: linear-gradient(135deg, #6b7280, #4b5563);
+    }
+
+    .action-info {
+        flex: 1;
+    }
+
+    .action-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #1e293b;
+        margin-bottom: 4px;
+    }
+
+    .action-description {
+        font-size: 0.85rem;
+        color: #64748b;
+        font-weight: 500;
+    }
+
+    /* Section configuration */
+    .config-section {
+        background: white;
+        border-radius: 16px;
+        padding: 30px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e2e8f0;
+        max-width: 500px;
+    }
+
+    .config-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #0c4a6e;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #7dd3fc;
+    }
+
+    .config-form {
+        width: 100%;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        display: block;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 8px;
+        font-size: 0.95rem;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: #fafbfc;
+    }
+
+    .form-input:focus {
+        outline: none;
+        border-color: #89C2D9;
+        background: white;
+        box-shadow: 0 0 0 3px rgba(137, 194, 217, 0.1);
+    }
+
+    .form-error {
+        color: #dc3545;
+        font-size: 0.85rem;
+        margin-top: 6px;
+        display: block;
+    }
+
+    .submit-button {
+        width: 100%;
+        padding: 14px 20px;
+        background: linear-gradient(135deg, #89C2D9, #468FAF);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        box-shadow: 0 4px 12px rgba(137, 194, 217, 0.3);
+    }
+
+    .submit-button:hover {
+        background: linear-gradient(135deg, #74B3CE, #3A7CA5);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(137, 194, 217, 0.4);
+    }
+
+    /* Messages Django */
+    .form-messages {
+        margin-bottom: 25px;
+    }
+
+    .message-success {
+        background: #d1fae5;
+        color: #065f46;
+        border: 1px solid #a7f3d0;
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin-bottom: 15px;
+    }
+
+    .message-error {
+        background: #fee2e2;
+        color: #991b1b;
+        border: 1px solid #fecaca;
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin-bottom: 15px;
+    }
+
+    .message-info {
+        background: #dbeafe;
+        color: #1e40af;
+        border: 1px solid #93c5fd;
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin-bottom: 15px;
+    }
+
+    /* ********************************************************** */
+    /* RESPONSIVE DESIGN (PRÉSERVÉ) */
+    /* ********************************************************** */
+
+    /* Tablettes */
+    @media (max-width: 1024px) {
+        .dashboard-content {
+            padding: 30px;
+        }
+
+        .dashboard-header {
+            padding: 25px 30px;
+        }
+
+        .stats-grid {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .actions-grid {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+    }
+
+    /* Mobiles */
+    @media (max-width: 768px) {
+        .dashboard-page {
+            padding: 15px;
+        }
+
+        .dashboard-container {
+            margin: 10px auto;
+            border-radius: 12px;
+        }
+
+        .dashboard-header {
+            padding: 20px;
+        }
+
+        .dashboard-title {
+            font-size: 1.8rem;
+        }
+
+        .dashboard-content {
+            padding: 20px;
+        }
+
+        .stat-card {
+            padding: 20px;
+        }
+
+        .stat-content {
+            gap: 15px;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+        }
+
+        .action-card {
+            padding: 20px;
+        }
+
+        .config-section {
+            padding: 20px;
+            max-width: 100%;
+        }
+    }
+
+    /* Très petits mobiles */
+    @media (max-width: 375px) {
+        .dashboard-page {
+            padding: 10px;
+        }
+
+        .dashboard-container {
+            margin: 5px auto;
+        }
+
+        .dashboard-header {
+            padding: 15px;
+        }
+
+        .dashboard-title {
+            font-size: 1.5rem;
+        }
+
+        .dashboard-content {
+            padding: 15px;
+        }
+
+        .stat-card {
+            padding: 15px;
+        }
+
+        .stat-content {
+            flex-direction: column;
+            text-align: center;
+            gap: 10px;
+        }
+
+        .action-card {
+            padding: 15px;
+        }
+
+        .config-section {
+            padding: 15px;
+        }
+
+        .form-input, .submit-button {
+            padding: 10px 14px;
+        }
+    }
+
+    /* Mode paysage mobile */
+    @media (max-height: 500px) and (orientation: landscape) {
+        .dashboard-page {
+            padding: 10px;
+        }
+
+        .dashboard-container {
+            margin: 10px auto;
+        }
+    }
+
+
+    /* Animation d'entrée */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .dashboard-container {
+        animation: fadeInUp 0.6s ease-out;
+    }
+
+    .stat-card {
+        animation: fadeInUp 0.6s ease-out;
+    }
+
+    .stat-card:nth-child(1) { animation-delay: 0.1s; }
+    .stat-card:nth-child(2) { animation-delay: 0.2s; }
+    .stat-card:nth-child(3) { animation-delay: 0.3s; }
+    /* Supprimé: .stat-card:nth-child(4) { animation-delay: 0.4s; } */
+
+    /* Accessibilité */
+    @media (prefers-reduced-motion: reduce) {
+        .dashboard-container, .stat-card, .action-card, .submit-button {
+            animation: none;
+            transition: none;
+        }
+    }
+</style>
+{% endblock extra_head %}
+
+{% block content %}
+<div class="dashboard-page">
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h1 class="dashboard-title">Administration de La Rose Boutique</h1>
+            <p class="dashboard-subtitle">
+                Bienvenue sur votre tableau de bord. Gérez les commandes et les statistiques de la boutique.
+            </p>
+        </header>
+
+        <div class="dashboard-content">
+            {% if messages %}
+                <div class="form-messages">
+                    {% for message in messages %}
+                        <div class="{% if message.tags == 'success' %}message-success{% elif message.tags == 'error' %}message-error{% else %}message-info{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-content">
+                        <div class="stat-icon stat-icon-pending">
+                            <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-label">Commandes en Attente</div>
+                            <div class="stat-value">{{ pending_orders_count|default:"0" }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-content">
+                        <div class="stat-icon stat-icon-products">
+                            <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c-2 3-1 4 1 5s3-2 3-2l4 4z" />
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-label">Produits Actifs</div>
+                            <div class="stat-value">{{ active_products_count|default:"0" }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-content">
+                        <div class="stat-icon stat-icon-users">
+                            <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20v-2m0 2h-2m-2-3H8m0 0a3 3 0 00-4.856-1.857M8 17H6m0 0H4m0 0a3 3 0 00-4.856-1.857M14 10a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-label">Total Utilisateurs</div>
+                            <div class="stat-value">{{ total_users_count|default:"0" }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                {# NOTE : La carte des revenus totaux (4ème carte) a été supprimée comme demandé. #}
+
+            </div>
+
+            <div class="quick-actions-section">
+                <h2 class="section-title">Actions Rapides</h2>
+                <div class="actions-grid">
+                    <a href="{% url 'admin_product_list' %}" class="action-card">
+                        <div class="action-icon action-icon-catalog">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10h16V7H4z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4a3 3 0 013 3v1h-6V7a3 3 0 013-3z" />
+                            </svg>
+                        </div>
+                        <div class="action-info">
+                            <div class="action-title">Gérer le Catalogue</div>
+                            <div class="action-description">Produits, catégories et stocks</div>
+                        </div>
+                    </a>
+
+                    <a href="{% url 'admin_product_create' %}" class="action-card">
+                        <div class="action-icon action-icon-create">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            </svg>
+                        </div>
+                        <div class="action-info">
+                            <div class="action-title">Créer un Nouveau Produit</div>
+                            <div class="action-description">Ajouter un produit au catalogue</div>
+                        </div>
+                    </a>
+
+                    <a href="{% url 'admin_order_list' %}" class="action-card">
+                        <div class="action-icon action-icon-orders">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M10 16h.01" />
+                            </svg>
+                        </div>
+                        <div class="action-info">
+                            <div class="action-title">Gérer les Commandes</div>
+                            <div class="action-description">{{ pending_orders_count|default:"0" }} en attente</div>
+                        </div>
+                    </a>
+
+                    <a href="{% url 'admin:index' %}" class="action-card">
+                        <div class="action-icon action-icon-admin">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.782 2.766-1.782 3.192 0A1.98 1.98 0 0018 7.032V8M5.432 19.95A1.98 1.98 0 013 17.032V8a1.98 1.98 0 011.664-1.968A1.98 1.98 0 017 6.032V5" />
+                            </svg>
+                        </div>
+                        <div class="action-info">
+                            <div class="action-title">Accéder à l'Admin Django</div>
+                            <div class="action-description">Interface d'administration avancée</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="config-section">
+                <h2 class="config-title">Configuration de la Boutique</h2>
+                <form method="post" action="{% url 'admin_dashboard' %}" class="config-form">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="{{ config_form.contact_email.id_for_label }}" class="form-label">
+                            {{ config_form.contact_email.label }}
+                        </label>
+                        {{ config_form.contact_email }}
+                        {% if config_form.contact_email.errors %}
+                            <span class="form-error">{{ config_form.contact_email.errors }}</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ config_form.contact_phone.id_for_label }}" class="form-label">
+                            {{ config_form.contact_phone.label }} (Ex: +33612345678)
+                        </label>
+                        {{ config_form.contact_phone }}
+                        {% if config_form.contact_phone.errors %}
+                            <span class="form-error">{{ config_form.contact_phone.errors }}</span>
+                        {% endif %}
+                    </div>
+
+                    <button type="submit" class="submit-button">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        Enregistrer la Configuration
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

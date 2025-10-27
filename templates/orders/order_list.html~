@@ -1,0 +1,256 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration - Index des Commandes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-blue': '#4a5568',
+                        'secondary-beige': '#f7fafc',
+                        'accent-green': '#48bb78',
+                        // COULEUR CARAMEL PERSONNALISÉE
+                        'caramel': '#D29C6B',
+                        'caramel-dark': '#B98555',
+                        // Couleurs de statut
+                        'status-pending': '#fef3c7', /* yellow-100 */
+                        'status-processing': '#bfdbfe', /* blue-200 */
+                        'status-shipped': '#dbeafe', /* blue-100 */
+                        'status-delivered': '#d1fae5', /* green-100 */
+                        'status-cancelled': '#fee2e2', /* red-100 */
+                    },
+                    textColor: {
+                        'status-pending': '#b45309', /* yellow-800 */
+                        'status-processing': '#1e40af', /* blue-800 */
+                        'status-shipped': '#1d4ed8', /* blue-800 */
+                        'status-delivered': '#065f46', /* green-800 */
+                        'status-cancelled': '#991b1b', /* red-800 */
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Styles personnalisés pour améliorer l'esthétique et la réactivité */
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+        }
+
+        /* Style pour les liens de filtre */
+        .filter-link {
+            display: block;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: #4a5568;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .filter-link:hover {
+            background-color: #f7fafc;
+        }
+        .filter-link.active {
+            background-color: #D29C6B;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="bg-[#e0effe] min-h-screen font-sans antialiased p-4 sm:p-8">
+
+    <div class="max-w-7xl mx-auto bg-white shadow-xl rounded-xl p-6 sm:p-10">
+        <div class="flex flex-col sm:flex-row justify-between items-center border-b pb-4 mb-6">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-primary-blue mb-4 sm:mb-0">
+                Gestion des Commandes
+            </h1>
+
+            <a href="{% url 'admin_dashboard' %}"
+               class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm
+                      text-white bg-caramel hover:bg-caramel-dark transition duration-150 ease-in-out">
+                ← Retour au Tableau de Bord
+            </a>
+        </div>
+
+        {# Affichage des messages Django #}
+        {% if messages %}
+            <div class="mb-4">
+                {% for message in messages %}
+                    <div class="p-3 rounded-lg text-sm {% if message.tags == 'success' %}bg-green-100 text-green-800{% elif message.tags == 'error' %}bg-red-100 text-red-800{% else %}bg-blue-100 text-blue-800{% endif %}" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <h2 style="color: red; font-weight: bold;">[TEST 3: TEMPLATE CHARGÉ AVEC SUCCÈS]</h2> {# CONTENEUR PRINCIPAL FLEXIBLE POUR FILTRES ET LISTE #}
+        <div class="flex flex-col lg:flex-row gap-6">
+
+            {# BARRE LATÉRALE DE FILTRAGE #}
+            <div class="lg:w-1/4 w-full bg-gray-50 p-4 rounded-lg shadow-inner flex-shrink-0">
+                <h3 class="text-lg font-semibold text-gray-700 mb-4 border-b pb-2">Filtrer par Statut</h3>
+
+                {% url 'admin_order_list' as list_url %}
+                {% with current_status=request.GET.status|default:"" %}
+
+                <a href="{{ list_url }}"
+                   class="filter-link {% if not current_status %}active{% endif %}">
+                    Toutes ({{ total_orders }})
+                </a>
+
+                {# CORRECTION CI-DESSOUS : Les valeurs de statut (status=) doivent correspondre à la CLÉ de traduction MAJUSCULE utilisée dans la vue Python #}
+
+                <a href="{{ list_url }}?status=EN ATTENTE DE PAIEMENT"
+                   class="filter-link {% if current_status == 'EN ATTENTE DE PAIEMENT' %}active{% endif %}">
+                    En attente de paiement
+                </a>
+
+                <a href="{{ list_url }}?status=EN COURS DE TRAITEMENT"
+                   class="filter-link {% if current_status == 'EN COURS DE TRAITEMENT' %}active{% endif %}">
+                    En cours de traitement </a>
+
+                <a href="{{ list_url }}?status=EXPÉDIÉE"
+                   class="filter-link {% if current_status == 'EXPÉDIÉE' %}active{% endif %}">
+                    Expédiée
+                </a>
+
+                <a href="{{ list_url }}?status=LIVRÉE/PAYÉE" class="filter-link {% if current_status == 'LIVRÉE/PAYÉE' %}active{% endif %}">
+                    Livrée/Payée </a>
+
+                <a href="{{ list_url }}?status=ANNULÉE"
+                   class="filter-link {% if current_status == 'ANNULÉE' %}active{% endif %}">
+                    Annulée
+                </a>
+
+                {% endwith %}
+
+            </div>
+
+            {# LISTE DES COMMANDES #}
+            <div class="lg:w-3/4 w-full">
+
+                {% if orders %}
+                    <p style="color: green; font-weight: bold; margin-bottom: 10px;">
+                        DEBUG: {{ orders|length }} COMMANDES REÇUES PAR LE TEMPLATE.
+                    </p>
+                    <div class="text-gray-600 text-sm mb-6">
+                        {{ orders|length }} commande(s) trouvée(s).
+                    </div>
+
+                    <div class="hidden md:block overflow-x-auto rounded-lg shadow-md">
+                        <table class="min-w-full bg-white divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        ID Commande
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Client
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Date
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Total
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Statut
+                                    </th>
+                                    <th scope="col" class="px-6 py-3"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                {% for order in orders %}
+                                <tr class="hover:bg-gray-50 transition duration-150">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                        #{{ order.id }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        {{ order.full_name }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        {{ order.created_at|date:"d M Y H:i" }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-700">
+                                        {# MODIFICATION 2A : Utilisation de total_price du modèle Order pour la fiabilité et correction de la devise #}
+                                        {{ order.total_price|default:"0.00"|stringformat:".2f" }} LR
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                        {# STATUT UTILISANT LES NOUVELLES CLASSES DE COULEUR #}
+                                        <span class="status-badge
+                                            bg-status-{{ order.status|lower }} text-status-{{ order.status|lower }}"
+                                        >
+                                            {{ order.get_status_display }}
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <a href="{% url 'admin_order_detail' order_id=order.id %}" class="text-indigo-600 hover:text-indigo-900 transition duration-150">
+                                            Voir Détails
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {# VUE MOBILE #}
+                    <div class="md:hidden space-y-4">
+                        {% for order in orders %}
+                        <div class="bg-white rounded-lg shadow p-4 border border-gray-200">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-xs font-semibold uppercase text-gray-500">Commande #{{ order.id }}</span>
+                                <span class="status-badge
+                                    bg-status-{{ order.status|lower }} text-status-{{ order.status|lower }}"
+                                >
+                                    {{ order.get_status_display }}
+                                </span>
+                            </div>
+                            <div class="text-lg font-bold text-gray-900 mb-1">
+                                {# MODIFICATION 2B : Utilisation de total_price du modèle Order pour la fiabilité et correction de la devise #}
+                                {{ order.total_price|default:"0.00"|stringformat:".2f" }} LR
+                            </div>
+                            <p class="text-sm text-gray-600">
+                                Client : <span class="font-medium">{{ order.full_name }}</span>
+                            </p>
+                            <p class="text-xs text-gray-400 mt-1">
+                                Passée le {{ order.created_at|date:"d M Y" }}
+                            </p>
+                            <div class="mt-3 text-right">
+                                 <a href="{% url 'admin_order_detail' order_id=order.id %}" class="text-indigo-600 hover:text-indigo-900 text-sm font-medium transition duration-150">
+                                    Voir Détails →
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                {% else %}
+                    <div class="text-center py-12 bg-gray-50 rounded-lg border border-dashed border-gray-300">
+                        <svg class="mx-auto h-12 w-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <h3 class="mt-2 text-sm font-medium text-gray-900">Aucune commande</h3>
+                        <p class="mt-1 text-sm text-gray-500">
+                            Il n'y a pas encore de commandes enregistrées pour ce filtre.
+                        </p>
+                    </div>
+                {% endif %}
+            </div>
+
+        </div> {# Fin du conteneur flex/grid #}
+
+    </div>
+
+</body>
+</html>

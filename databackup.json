@@ -1,0 +1,2253 @@
+[
+{
+  "model": "store.category",
+  "pk": 1,
+  "fields": {
+    "name": "Costume trois pi�ces",
+    "slug": "costume-trois-pieces"
+  }
+},
+{
+  "model": "store.category",
+  "pk": 2,
+  "fields": {
+    "name": "Costume crois�",
+    "slug": "costume-croise"
+  }
+},
+{
+  "model": "store.category",
+  "pk": 3,
+  "fields": {
+    "name": "Costume safari",
+    "slug": "costume-safari"
+  }
+},
+{
+  "model": "store.category",
+  "pk": 4,
+  "fields": {
+    "name": "Chemise",
+    "slug": "chemise"
+  }
+},
+{
+  "model": "store.product",
+  "pk": 1,
+  "fields": {
+    "category": 4,
+    "name": "Chemise beige",
+    "slug": "chemise-beige",
+    "price": "50.00",
+    "image": "products/chemisebeige.jpg",
+    "description": "Cette chemise beige en lin est legere et elegante, parfait  pour les jours de soleil",
+    "is_active": true
+  }
+},
+{
+  "model": "store.product",
+  "pk": 2,
+  "fields": {
+    "category": 4,
+    "name": "Chemise blanche",
+    "slug": "chemise-blanche",
+    "price": "50.00",
+    "image": "products/chemiseblanche_OtAD3OI.jpg",
+    "description": "Une couleur neutre, juste ce qu'il faut pour tout les occasions",
+    "is_active": true
+  }
+},
+{
+  "model": "store.product",
+  "pk": 3,
+  "fields": {
+    "category": 4,
+    "name": "Chemise bleu",
+    "slug": "chemise-bleu",
+    "price": "50.00",
+    "image": "products/chemisebleu_tj1JBQc.jpg",
+    "description": "La couleur de la paix, quoi de mieux que du bleu en chemise ?",
+    "is_active": true
+  }
+},
+{
+  "model": "store.product",
+  "pk": 4,
+  "fields": {
+    "category": 2,
+    "name": "Crois� brun",
+    "slug": "croise-brun",
+    "price": "250.00",
+    "image": "products/croisebrun_9aaktno.jpg",
+    "description": "Vetissez vous en toutes �l�gances avec ce magnifique costume brun",
+    "is_active": true
+  }
+},
+{
+  "model": "store.product",
+  "pk": 5,
+  "fields": {
+    "category": 2,
+    "name": "Crois� gris",
+    "slug": "croise-gris",
+    "price": "250.00",
+    "image": "products/croisegris_rhwvZuy.jpg",
+    "description": "Un costume pour les grandes occasions, excatement ce qu'il vous faut",
+    "is_active": true
+  }
+},
+{
+  "model": "store.product",
+  "pk": 6,
+  "fields": {
+    "category": 1,
+    "name": "Trois pi�ces gris",
+    "slug": "trois-pieces-gris",
+    "price": "250.00",
+    "image": "products/troispiecegirs_0QLxPE2.jpg",
+    "description": "Brillez de milles feus dans ce trois pi�ces de couleur grise, couleur des officiels",
+    "is_active": true
+  }
+},
+{
+  "model": "store.product",
+  "pk": 7,
+  "fields": {
+    "category": 3,
+    "name": "Safari noir",
+    "slug": "safari-noir",
+    "price": "250.00",
+    "image": "products/safarinoir_kVPaBJX.jpg",
+    "description": "Autant pour les grandes occasions que pour les petites, cet ensemble noir est un passe partout",
+    "is_active": true
+  }
+},
+{
+  "model": "store.product",
+  "pk": 8,
+  "fields": {
+    "category": 1,
+    "name": "Trois pi�ces bleu",
+    "slug": "trois-pieces-bleu",
+    "price": "250.00",
+    "image": "products/troispiecebleu_B0xigoX.jpg",
+    "description": "Pour les jours de fetes quoi de mieux qu'un costume trois pi�ces, pour le travail quoi de mieux que du bleu ? Ce costume est fait pour vous",
+    "is_active": true
+  }
+},
+{
+  "model": "store.product",
+  "pk": 9,
+  "fields": {
+    "category": 3,
+    "name": "Safari gris clair",
+    "slug": "safari-gris-clair",
+    "price": "250.00",
+    "image": "products/safarigrisclair_7R9032i.jpg",
+    "description": "C'est possible d'etre tr�s bien habill�,sans etre trop habill�. Ce costume safari gris clair le prouve",
+    "is_active": true
+  }
+},
+{
+  "model": "store.product",
+  "pk": 10,
+  "fields": {
+    "category": 3,
+    "name": "Safari cyan",
+    "slug": "safari-cyan",
+    "price": "250.00",
+    "image": "products/safaricyan_HbqpkBK.jpg",
+    "description": "Une pi�ce unique dans sa garde-robe rends toujours content, alors qu'attendez vous ?",
+    "is_active": true
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 1,
+  "fields": {
+    "product": 10,
+    "size": "48",
+    "stock": 19
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 2,
+  "fields": {
+    "product": 5,
+    "size": "50",
+    "stock": 17
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 3,
+  "fields": {
+    "product": 9,
+    "size": "48",
+    "stock": 18
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 4,
+  "fields": {
+    "product": 3,
+    "size": "L",
+    "stock": 17
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 5,
+  "fields": {
+    "product": 2,
+    "size": "L",
+    "stock": 19
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 6,
+  "fields": {
+    "product": 8,
+    "size": "48",
+    "stock": 18
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 7,
+  "fields": {
+    "product": 7,
+    "size": "48",
+    "stock": 19
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 8,
+  "fields": {
+    "product": 6,
+    "size": "48",
+    "stock": 19
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 9,
+  "fields": {
+    "product": 4,
+    "size": "48",
+    "stock": 18
+  }
+},
+{
+  "model": "store.productvariant",
+  "pk": 10,
+  "fields": {
+    "product": 1,
+    "size": "L",
+    "stock": 16
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 1,
+  "fields": {
+    "full_name": "Lifoko  Life",
+    "phone_number": "0973343562",
+    "email": "contact@larose.com",
+    "payment_method": null,
+    "total_price": "0.00",
+    "created_at": "2025-09-30T02:47:43.412Z",
+    "address_line_1": "3012 av kingabwa quartier mendrendelle commune limete ",
+    "address_line_2": "",
+    "city": "Kinshasa",
+    "postal_code": "00243",
+    "country": "RDC",
+    "shipping_cost": "0.00",
+    "tax": "0.00",
+    "updated_at": "2025-10-12T00:00:00Z",
+    "payment_id": null,
+    "user": null,
+    "status": "PENDING"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 2,
+  "fields": {
+    "full_name": "Lifoko  Life",
+    "phone_number": "0973343562",
+    "email": "contact@larose.com",
+    "payment_method": null,
+    "total_price": "0.00",
+    "created_at": "2025-09-30T03:17:15.229Z",
+    "address_line_1": "3012 av kingabwa quartier mendrendelle commune limete ",
+    "address_line_2": "",
+    "city": "Kinshasa",
+    "postal_code": "00243",
+    "country": "RDC",
+    "shipping_cost": "0.00",
+    "tax": "0.00",
+    "updated_at": "2025-10-12T00:00:00Z",
+    "payment_id": null,
+    "user": null,
+    "status": "PENDING"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 3,
+  "fields": {
+    "full_name": "Lifoko  Life",
+    "phone_number": "0973343562",
+    "email": "contact@larose.com",
+    "payment_method": null,
+    "total_price": "0.00",
+    "created_at": "2025-09-30T03:17:28.459Z",
+    "address_line_1": "3012 av kingabwa quartier mendrendelle commune limete ",
+    "address_line_2": "",
+    "city": "Kinshasa",
+    "postal_code": "00243",
+    "country": "RDC",
+    "shipping_cost": "0.00",
+    "tax": "0.00",
+    "updated_at": "2025-10-12T00:00:00Z",
+    "payment_id": null,
+    "user": null,
+    "status": "PENDING"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 4,
+  "fields": {
+    "full_name": "Lifoko  Life",
+    "phone_number": "0973343562",
+    "email": "contact@larose.com",
+    "payment_method": null,
+    "total_price": "0.00",
+    "created_at": "2025-09-30T03:17:32.484Z",
+    "address_line_1": "3012 av kingabwa quartier mendrendelle commune limete ",
+    "address_line_2": "",
+    "city": "Kinshasa",
+    "postal_code": "00243",
+    "country": "RDC",
+    "shipping_cost": "0.00",
+    "tax": "0.00",
+    "updated_at": "2025-10-12T00:00:00Z",
+    "payment_id": null,
+    "user": null,
+    "status": "PENDING"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 5,
+  "fields": {
+    "full_name": "Lifoko  Life",
+    "phone_number": "0973343562",
+    "email": "contact@larose.com",
+    "payment_method": null,
+    "total_price": "0.00",
+    "created_at": "2025-09-30T03:29:25.763Z",
+    "address_line_1": "3012 av kingabwa q mendrendelle c  limete\r\n",
+    "address_line_2": "",
+    "city": "Kinshasa",
+    "postal_code": "00243",
+    "country": "RDC",
+    "shipping_cost": "0.00",
+    "tax": "0.00",
+    "updated_at": "2025-10-12T00:00:00Z",
+    "payment_id": null,
+    "user": null,
+    "status": "PENDING"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 6,
+  "fields": {
+    "full_name": "Lifoko  Life",
+    "phone_number": "0973343562",
+    "email": "contact@larose.com",
+    "payment_method": null,
+    "total_price": "0.00",
+    "created_at": "2025-09-30T03:29:46.843Z",
+    "address_line_1": "3012 av kingabwa q mendrendelle c  limete\r\n",
+    "address_line_2": "",
+    "city": "Kinshasa",
+    "postal_code": "00243",
+    "country": "RDC",
+    "shipping_cost": "0.00",
+    "tax": "0.00",
+    "updated_at": "2025-10-12T00:00:00Z",
+    "payment_id": null,
+    "user": null,
+    "status": "PENDING"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 7,
+  "fields": {
+    "full_name": "Lifoko  Life",
+    "phone_number": "0973343562",
+    "email": "contact@larose.com",
+    "payment_method": null,
+    "total_price": "2250.00",
+    "created_at": "2025-09-30T03:39:06.461Z",
+    "address_line_1": "3012 mendrendelle q kingabwa c limete",
+    "address_line_2": "",
+    "city": "Kinshasa",
+    "postal_code": "00243",
+    "country": "RDC",
+    "shipping_cost": "0.00",
+    "tax": "0.00",
+    "updated_at": "2025-10-12T00:00:00Z",
+    "payment_id": null,
+    "user": null,
+    "status": "PENDING"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 8,
+  "fields": {
+    "full_name": "Lifoko  Life",
+    "phone_number": "0973343562",
+    "email": "contact@larose.com",
+    "payment_method": null,
+    "total_price": "750.00",
+    "created_at": "2025-09-30T03:48:40.664Z",
+    "address_line_1": "lifestreert",
+    "address_line_2": "",
+    "city": "Kinshasa",
+    "postal_code": "00243",
+    "country": "RDC",
+    "shipping_cost": "0.00",
+    "tax": "0.00",
+    "updated_at": "2025-10-12T00:00:00Z",
+    "payment_id": null,
+    "user": null,
+    "status": "PENDING"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 9,
+  "fields": {
+    "full_name": "Lifoko  Life",
+    "phone_number": "0973343562",
+    "email": "contact@larose.com",
+    "payment_method": null,
+    "total_price": "1000.00",
+    "created_at": "2025-09-30T20:55:03.857Z",
+    "address_line_1": "3012 avenu kingabwa, quartier mendrendelle, commune limete",
+    "address_line_2": "",
+    "city": "Kinshasa",
+    "postal_code": "00243",
+    "country": "RDC",
+    "shipping_cost": "0.00",
+    "tax": "0.00",
+    "updated_at": "2025-10-12T00:00:00Z",
+    "payment_id": null,
+    "user": null,
+    "status": "PENDING"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 10,
+  "fields": {
+    "full_name": "Lifoko  Life",
+    "phone_number": "0973343562",
+    "email": "contact@larose.com",
+    "payment_method": null,
+    "total_price": "550.00",
+    "created_at": "2025-09-30T21:31:48.513Z",
+    "address_line_1": "3012 avenue kingabwa, quartier mendrendelle, commune limete",
+    "address_line_2": "",
+    "city": "Kinshasa",
+    "postal_code": "00243",
+    "country": "RDC",
+    "shipping_cost": "0.00",
+    "tax": "0.00",
+    "updated_at": "2025-10-12T00:00:00Z",
+    "payment_id": null,
+    "user": null,
+    "status": "PENDING"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 11,
+  "fields": {
+    "full_name": "Lifoko  Life",
+    "phone_number": "+243 973343562",
+    "email": "contact@larose.com",
+    "payment_method": null,
+    "total_price": "550.00",
+    "created_at": "2025-09-30T22:30:06.922Z",
+    "address_line_1": "3012 avenue kingabwa, quartier mendrendelle, commune limete",
+    "address_line_2": "",
+    "city": "Kinshasa",
+    "postal_code": "00243",
+    "country": "RDC",
+    "shipping_cost": "0.00",
+    "tax": "0.00",
+    "updated_at": "2025-10-12T00:00:00Z",
+    "payment_id": null,
+    "user": null,
+    "status": "PENDING"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 12,
+  "fields": {
+    "full_name": "Lifoko  Life",
+    "phone_number": "+243 973343562",
+    "email": "contact@larose.com",
+    "payment_method": null,
+    "total_price": "550.00",
+    "created_at": "2025-09-30T22:35:41.260Z",
+    "address_line_1": "3012 avenue kingabwa, quartier mendrendelle, commune limete",
+    "address_line_2": "",
+    "city": "Kinshasa",
+    "postal_code": "00243",
+    "country": "RDC",
+    "shipping_cost": "0.00",
+    "tax": "0.00",
+    "updated_at": "2025-10-12T00:00:00Z",
+    "payment_id": null,
+    "user": null,
+    "status": "PENDING"
+
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 13,
+  "fields": {
+    "full_name": "Lifoko  Life",
+    "phone_number": "+243 973343562",
+    "email": "contact@larose.com",
+    "payment_method": "Cash",
+    "total_price": "550.00",
+    "created_at": "2025-09-30T22:51:52.753Z",
+    "address_line_1": "3012 avenue kingabwa, quartier mendrendelle, commune limete",
+    "address_line_2": "",
+    "city": "Kinshasa",
+    "postal_code": "00243",
+    "country": "RDC",
+    "shipping_cost": "0.00",
+    "tax": "0.00",
+    "updated_at": "2025-10-12T00:00:00Z",
+    "payment_id": null,
+    "user": null,
+    "status": "PENDING"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 14,
+  "fields": {
+    "full_name": "Lifoko  Life",
+    "phone_number": "+243 973343562",
+    "email": "contact@larose.com",
+    "payment_method": "Airtel money",
+    "total_price": "50.00",
+    "created_at": "2025-09-30T22:53:38.716Z",
+    "address_line_1": "avenu kingabwa 3012, quartier mendrendelle, commune limete",
+    "address_line_2": "",
+    "city": "Kinshasa",
+    "postal_code": "00243",
+    "country": "RDC",
+    "shipping_cost": "0.00",
+    "tax": "0.00",
+    "updated_at": "2025-10-12T00:00:00Z",
+    "payment_id": null,
+    "user": null,
+    "status": "PENDING"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 15,
+  "fields": {
+    "full_name": "Lifoko  Life",
+    "phone_number": "+243 973343562",
+    "email": "contact@larose.com",
+    "payment_method": "Cash",
+    "total_price": "1000.00",
+    "created_at": "2025-10-01T02:35:48.822Z",
+    "address_line_1": "3012 avenue kingabwa",
+    "address_line_2": "",
+    "city": "Kinshasa",
+    "postal_code": "00243",
+    "country": "RDC",
+    "shipping_cost": "0.00",
+    "tax": "0.00",
+    "updated_at": "2025-10-12T00:00:00Z",
+    "payment_id": null,
+    "user": null,
+    "status": "PENDING"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 16,
+  "fields": {
+    "full_name": "Lifoko  Life",
+    "phone_number": "+243 973343562",
+    "email": "contact@larose.com",
+    "payment_method": "Cash",
+    "total_price": "300.00",
+    "created_at": "2025-10-02T00:08:38.851Z",
+    "address_line_1": "llllala",
+    "address_line_2": "",
+    "city": "Kinshasa",
+    "postal_code": "00243",
+    "country": "RDC",
+    "shipping_cost": "0.00",
+    "tax": "0.00",
+    "updated_at": "2025-10-12T00:00:00Z",
+    "payment_id": null,
+    "user": null,
+    "status": "PENDING"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 17,
+  "fields": {
+    "full_name": "Lifoko  Life",
+    "phone_number": "+243 973343562",
+    "email": "contact@larose.com",
+    "payment_method": "Cash",
+    "total_price": "550.00",
+    "created_at": "2025-10-10T20:48:15.690Z",
+    "address_line_1": "Avenue kingabwa 3012, quartier mendrendelle, commune limete",
+    "address_line_2": "",
+    "city": "Kinshasa",
+    "postal_code": "00243",
+    "country": "RDC",
+    "shipping_cost": "0.00",
+    "tax": "0.00",
+    "updated_at": "2025-10-12T00:00:00Z",
+    "payment_id": null,
+    "user": null,
+    "status": "PENDING"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 18,
+  "fields": {
+    "full_name": "Lifoko  Life",
+    "phone_number": "+243 973343562",
+    "email": "contact@larose.com",
+    "payment_method": "Cash",
+    "total_price": "550.00",
+    "created_at": "2025-10-10T21:16:21.568Z",
+    "address_line_1": "3012 avenue kingabwa, quartier mendrendelle,commune limete",
+    "address_line_2": "",
+    "city": "Kinshasa",
+    "postal_code": "00243",
+    "country": "RDC",
+    "shipping_cost": "0.00",
+    "tax": "0.00",
+    "updated_at": "2025-10-12T00:00:00Z",
+    "payment_id": null,
+    "user": null,
+    "status": "PENDING"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 19,
+  "fields": {
+    "full_name": "Lifoko  Life",
+    "phone_number": "+243 973343562",
+    "email": "contact@larose.com",
+    "payment_method": "Cash",
+    "total_price": "300.00",
+    "created_at": "2025-10-10T22:21:43.534Z",
+    "address_line_1": "3012 avenu kingabwa, quartier mendrendelle",
+    "address_line_2": "",
+    "city": "Kinshasa",
+    "postal_code": "00243",
+    "country": "RDC",
+    "shipping_cost": "0.00",
+    "tax": "0.00",
+    "updated_at": "2025-10-12T00:00:00Z",
+    "payment_id": null,
+    "user": null,
+    "status": "PENDING"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 20,
+  "fields": {
+    "full_name": "Lifoko  Life",
+    "phone_number": "+243 973343562",
+    "email": "contact@larose.com",
+    "payment_method": "Cash",
+    "total_price": "300.00",
+    "created_at": "2025-10-10T23:18:59.861Z",
+    "address_line_1": "3012 avenue kingabwa, quartier mendrendelle commune limete",
+    "address_line_2": "",
+    "city": "Kinshasa",
+    "postal_code": "00243",
+    "country": "RDC",
+    "shipping_cost": "0.00",
+    "tax": "0.00",
+    "updated_at": "2025-10-12T00:00:00Z",
+    "payment_id": null,
+    "user": null,
+    "status": "PENDING"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 21,
+  "fields": {
+    "full_name": "Lifoko  Life",
+    "phone_number": "+243 973343562",
+    "email": "contact@larose.com",
+    "payment_method": "M-pesa",
+    "total_price": "550.00",
+    "created_at": "2025-10-10T23:57:30.362Z",
+    "address_line_1": "3012 avenue kingabwa, quartier mendrendelle, commune limete ",
+    "address_line_2": "",
+    "city": "Kinshasa",
+    "postal_code": "00243",
+    "country": "RDC",
+    "shipping_cost": "0.00",
+    "tax": "0.00",
+    "updated_at": "2025-10-12T00:00:00Z",
+    "payment_id": null,
+    "user": null,
+    "status": "PENDING"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 22,
+  "fields": {
+    "full_name": "Lifoko  Life",
+    "phone_number": "+243 973343562",
+    "email": "contact@larose.com",
+    "payment_method": "Cash",
+    "total_price": "550.00",
+    "created_at": "2025-10-11T00:28:23.926Z",
+    "address_line_1": "3012 kingabwa",
+    "address_line_2": "",
+    "city": "Kinshasa",
+    "postal_code": "00243",
+    "country": "RDC",
+    "shipping_cost": "0.00",
+    "tax": "0.00",
+    "updated_at": "2025-10-12T00:00:00Z",
+    "payment_id": null,
+    "user": null,
+    "status": "PENDING"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 23,
+  "fields": {
+    "full_name": "Lifoko  Life",
+    "phone_number": "+243 973343562",
+    "email": "contact@larose.com",
+    "payment_method": "Cash",
+    "total_price": "300.00",
+    "created_at": "2025-10-11T01:46:20.697Z",
+    "address_line_1": "Mendrendelle 3012,  kingawa",
+    "address_line_2": "",
+    "city": "Kinshasa",
+    "postal_code": "00243",
+    "country": "RDC",
+    "shipping_cost": "0.00",
+    "tax": "0.00",
+    "updated_at": "2025-10-12T00:00:00Z",
+    "payment_id": null,
+    "user": null,
+    "status": "PENDING"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 24,
+  "fields": {
+    "full_name": "Lifoko  Life",
+    "phone_number": "+243 973343562",
+    "email": "contact@larose.com",
+    "payment_method": "Cash",
+    "total_price": "300.00",
+    "created_at": "2025-10-11T01:55:45.464Z",
+    "address_line_1": "kingabwa 3012, commune limete ",
+    "address_line_2": "",
+    "city": "Kinshasa",
+    "postal_code": "00243",
+    "country": "RDC",
+    "shipping_cost": "0.00",
+    "tax": "0.00",
+    "updated_at": "2025-10-12T00:00:00Z",
+    "payment_id": null,
+    "user": null,
+    "status": "PENDING"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 25,
+  "fields": {
+    "full_name": "Lifoko  Life",
+    "phone_number": "+243 973343562",
+    "email": "contact@larose.com",
+    "payment_method": "Cash",
+    "total_price": "350.00",
+    "created_at": "2025-10-11T02:06:40.017Z",
+    "address_line_1": "3012 avenue kingabwa, quartier mendrendelle, commune limete",
+    "address_line_2": "",
+    "city": "Kinshasa",
+    "postal_code": "00243",
+    "country": "RDC",
+    "shipping_cost": "0.00",
+    "tax": "0.00",
+    "updated_at": "2025-10-12T00:00:00Z",
+    "payment_id": null,
+    "user": null,
+    "status": "PENDING"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 26,
+  "fields": {
+    "full_name": "Lifoko  Life",
+    "phone_number": "+243 973343562",
+    "email": "contact@larose.com",
+    "payment_method": "Cash",
+    "total_price": "350.00",
+    "created_at": "2025-10-11T02:43:08.631Z",
+    "address_line_1": "ave kings 3012, mendrendelle",
+    "address_line_2": "",
+    "city": "Kinshasa",
+    "postal_code": "00243",
+    "country": "RDC",
+    "shipping_cost": "0.00",
+    "tax": "0.00",
+    "updated_at": "2025-10-12T00:00:00Z",
+    "payment_id": null,
+    "user": null,
+    "status": "PENDING"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 27,
+  "fields": {
+    "full_name": "Lifoko  Life",
+    "phone_number": "+243 973343562",
+    "email": "contact@larose.com",
+    "payment_method": "Cash",
+    "total_price": "750.00",
+    "created_at": "2025-10-11T03:12:17.403Z",
+    "address_line_1": "3012 Ave kingabwa, quatier mendrendelle, commune limete",
+    "address_line_2": "",
+    "city": "Kinshasa",
+    "postal_code": "00243",
+    "country": "RDC",
+    "shipping_cost": "0.00",
+    "tax": "0.00",
+    "updated_at": "2025-10-12T00:00:00Z",
+    "payment_id": null,
+    "user": null,
+    "status": "PENDING"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 28,
+  "fields": {
+    "full_name": "Lifoko  Life",
+    "phone_number": "+243 973343562",
+    "email": "contact@larose.com",
+    "payment_method": "Cash",
+    "total_price": "550.00",
+    "created_at": "2025-10-11T06:21:39.106Z",
+    "address_line_1": "avenu kingabwa 3012, mendrendelle, commune limete",
+    "address_line_2": "",
+    "city": "Kinshasa",
+    "postal_code": "00243",
+    "country": "RDC",
+    "shipping_cost": "0.00",
+    "tax": "0.00",
+    "updated_at": "2025-10-12T00:00:00Z",
+    "payment_id": null,
+    "user": null,
+    "status": "PENDING"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 29,
+  "fields": {
+    "full_name": "Lifoko  Life",
+    "phone_number": "+243 973343562",
+    "email": "contact@larose.com",
+    "payment_method": "Cash",
+    "total_price": "550.00",
+    "created_at": "2025-10-11T06:23:27.922Z",
+    "address_line_1": "ave kingabwa 3012, q mendrendelle, commune limete",
+    "address_line_2": "",
+    "city": "Kinshasa",
+    "postal_code": "00243",
+    "country": "RDC",
+    "shipping_cost": "0.00",
+    "tax": "0.00",
+    "updated_at": "2025-10-12T00:00:00Z",
+    "payment_id": null,
+    "user": null,
+    "status": "PENDING"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 30,
+  "fields": {
+    "full_name": "Lifoko  Life",
+    "phone_number": "+243 973343562",
+    "email": "contact@larose.com",
+    "payment_method": "Cash",
+    "total_price": "550.00",
+    "created_at": "2025-10-11T06:41:05.612Z",
+    "address_line_1": "kingabwa 3012, quartier kingabwa, commune limete",
+    "address_line_2": "",
+    "city": "Kinshasa",
+    "postal_code": "00243",
+    "country": "RDC",
+    "shipping_cost": "0.00",
+    "tax": "0.00",
+    "updated_at": "2025-10-12T00:00:00Z",
+    "payment_id": null,
+    "user": null,
+    "status": "PENDING"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 1,
+  "fields": {
+    "order": 7,
+    "product": 3,
+    "size": null,
+    "color": null,
+    "quantity": 4,
+    "price": "50.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 2,
+  "fields": {
+    "order": 7,
+    "product": 7,
+    "size": null,
+    "color": null,
+    "quantity": 2,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 3,
+  "fields": {
+    "order": 7,
+    "product": 6,
+    "size": null,
+    "color": null,
+    "quantity": 2,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 4,
+  "fields": {
+    "order": 7,
+    "product": 5,
+    "size": null,
+    "color": null,
+    "quantity": 2,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 5,
+  "fields": {
+    "order": 7,
+    "product": 2,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "50.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 6,
+  "fields": {
+    "order": 7,
+    "product": 10,
+   "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 7,
+  "fields": {
+    "order": 7,
+    "product": 9,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 8,
+  "fields": {
+    "order": 8,
+    "product": 7,
+    "size": null,
+    "color": null,
+    "quantity": 3,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 9,
+  "fields": {
+    "order": 9,
+    "product": 10,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 10,
+  "fields": {
+    "order": 9,
+    "product": 7,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 11,
+  "fields": {
+    "order": 9,
+    "product": 9,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 12,
+  "fields": {
+    "order": 9,
+    "product": 8,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 13,
+  "fields": {
+    "order": 10,
+    "product": 1,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "50.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 14,
+  "fields": {
+    "order": 10,
+    "product": 4,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 15,
+  "fields": {
+    "order": 10,
+    "product": 7,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 16,
+  "fields": {
+    "order": 11,
+    "product": 2,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "50.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 17,
+  "fields": {
+    "order": 11,
+    "product": 5,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 18,
+  "fields": {
+    "order": 11,
+    "product": 6,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 19,
+  "fields": {
+    "order": 12,
+    "product": 4,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 20,
+  "fields": {
+    "order": 12,
+    "product": 7,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 21,
+  "fields": {
+    "order": 12,
+    "product": 1,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "50.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 22,
+  "fields": {
+    "order": 13,
+    "product": 2,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "50.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 23,
+  "fields": {
+    "order": 13,
+    "product": 5,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 24,
+  "fields": {
+    "order": 13,
+    "product": 9,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 25,
+  "fields": {
+    "order": 14,
+    "product": 2,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "50.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 26,
+  "fields": {
+    "order": 15,
+    "product": 6,
+    "size": null,
+    "color": null,
+    "quantity": 3,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 27,
+  "fields": {
+    "order": 15,
+    "product": 7,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 28,
+  "fields": {
+    "order": 16,
+    "product": 2,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "50.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 29,
+  "fields": {
+    "order": 16,
+    "product": 10,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 30,
+  "fields": {
+    "order": 17,
+    "product": 1,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "50.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 31,
+  "fields": {
+    "order": 17,
+    "product": 4,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 32,
+  "fields": {
+    "order": 17,
+    "product": 7,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 33,
+  "fields": {
+    "order": 18,
+    "product": 2,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "50.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 34,
+  "fields": {
+    "order": 18,
+    "product": 5,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 35,
+  "fields": {
+    "order": 18,
+    "product": 9,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 36,
+  "fields": {
+    "order": 19,
+    "product": 2,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "50.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 37,
+  "fields": {
+    "order": 19,
+    "product": 5,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 38,
+  "fields": {
+    "order": 20,
+    "product": 1,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "50.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 39,
+  "fields": {
+    "order": 20,
+    "product": 4,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 40,
+  "fields": {
+    "order": 21,
+    "product": 2,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "50.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 41,
+  "fields": {
+    "order": 21,
+    "product": 4,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 42,
+  "fields": {
+    "order": 21,
+    "product": 7,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 43,
+  "fields": {
+    "order": 22,
+    "product": 3,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "50.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 44,
+  "fields": {
+    "order": 22,
+    "product": 10,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 45,
+  "fields": {
+    "order": 22,
+    "product": 8,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 46,
+  "fields": {
+    "order": 23,
+    "product": 2,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "50.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 47,
+  "fields": {
+    "order": 23,
+    "product": 5,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 48,
+  "fields": {
+    "order": 24,
+    "product": 6,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 49,
+  "fields": {
+    "order": 24,
+    "product": 3,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "50.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 50,
+  "fields": {
+    "order": 25,
+    "product": 1,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "50.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 51,
+  "fields": {
+    "order": 25,
+    "product": 2,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "50.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 52,
+  "fields": {
+    "order": 25,
+    "product": 4,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 53,
+  "fields": {
+    "order": 26,
+    "product": 1,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "50.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 54,
+  "fields": {
+    "order": 26,
+    "product": 3,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "50.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 55,
+  "fields": {
+    "order": 26,
+    "product": 5,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 56,
+  "fields": {
+    "order": 27,
+    "product": 4,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 57,
+  "fields": {
+    "order": 27,
+    "product": 5,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 58,
+  "fields": {
+    "order": 27,
+    "product": 9,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 59,
+  "fields": {
+    "order": 28,
+    "product": 1,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "50.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 60,
+  "fields": {
+    "order": 28,
+    "product": 7,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 61,
+  "fields": {
+    "order": 28,
+    "product": 8,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 62,
+  "fields": {
+    "order": 29,
+    "product": 1,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "50.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 63,
+  "fields": {
+    "order": 29,
+    "product": 5,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 64,
+  "fields": {
+    "order": 29,
+    "product": 9,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 65,
+  "fields": {
+    "order": 30,
+    "product": 3,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "50.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 66,
+  "fields": {
+    "order": 30,
+    "product": 10,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 67,
+  "fields": {
+    "order": 30,
+    "product": 8,
+    "size": null,
+    "color": null,
+    "quantity": 1,
+    "price": "250.00"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 1,
+  "fields": {
+    "name": "Can add log entry",
+    "content_type": 1,
+    "codename": "add_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 2,
+  "fields": {
+    "name": "Can change log entry",
+    "content_type": 1,
+    "codename": "change_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 3,
+  "fields": {
+    "name": "Can delete log entry",
+    "content_type": 1,
+    "codename": "delete_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 4,
+  "fields": {
+    "name": "Can view log entry",
+    "content_type": 1,
+    "codename": "view_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 5,
+  "fields": {
+    "name": "Can add permission",
+    "content_type": 2,
+    "codename": "add_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 6,
+  "fields": {
+    "name": "Can change permission",
+    "content_type": 2,
+    "codename": "change_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 7,
+  "fields": {
+    "name": "Can delete permission",
+    "content_type": 2,
+    "codename": "delete_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 8,
+  "fields": {
+    "name": "Can view permission",
+    "content_type": 2,
+    "codename": "view_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 9,
+  "fields": {
+    "name": "Can add group",
+    "content_type": 3,
+    "codename": "add_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 10,
+  "fields": {
+    "name": "Can change group",
+    "content_type": 3,
+    "codename": "change_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 11,
+  "fields": {
+    "name": "Can delete group",
+    "content_type": 3,
+    "codename": "delete_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 12,
+  "fields": {
+    "name": "Can view group",
+    "content_type": 3,
+    "codename": "view_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 13,
+  "fields": {
+    "name": "Can add user",
+    "content_type": 4,
+    "codename": "add_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 14,
+  "fields": {
+    "name": "Can change user",
+    "content_type": 4,
+    "codename": "change_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 15,
+  "fields": {
+    "name": "Can delete user",
+    "content_type": 4,
+    "codename": "delete_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 16,
+  "fields": {
+    "name": "Can view user",
+    "content_type": 4,
+    "codename": "view_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 17,
+  "fields": {
+    "name": "Can add content type",
+    "content_type": 5,
+    "codename": "add_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 18,
+  "fields": {
+    "name": "Can change content type",
+    "content_type": 5,
+    "codename": "change_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 19,
+  "fields": {
+    "name": "Can delete content type",
+    "content_type": 5,
+    "codename": "delete_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 20,
+  "fields": {
+    "name": "Can view content type",
+    "content_type": 5,
+    "codename": "view_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 21,
+  "fields": {
+    "name": "Can add session",
+    "content_type": 6,
+    "codename": "add_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 22,
+  "fields": {
+    "name": "Can change session",
+    "content_type": 6,
+    "codename": "change_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 23,
+  "fields": {
+    "name": "Can delete session",
+    "content_type": 6,
+    "codename": "delete_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 24,
+  "fields": {
+    "name": "Can view session",
+    "content_type": 6,
+    "codename": "view_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 25,
+  "fields": {
+    "name": "Can add order",
+    "content_type": 7,
+    "codename": "add_order"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 26,
+  "fields": {
+    "name": "Can change order",
+    "content_type": 7,
+    "codename": "change_order"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 27,
+  "fields": {
+    "name": "Can delete order",
+    "content_type": 7,
+    "codename": "delete_order"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 28,
+  "fields": {
+    "name": "Can view order",
+    "content_type": 7,
+    "codename": "view_order"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 29,
+  "fields": {
+    "name": "Can add product",
+    "content_type": 8,
+    "codename": "add_product"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 30,
+  "fields": {
+    "name": "Can change product",
+    "content_type": 8,
+    "codename": "change_product"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 31,
+  "fields": {
+    "name": "Can delete product",
+    "content_type": 8,
+    "codename": "delete_product"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 32,
+  "fields": {
+    "name": "Can view product",
+    "content_type": 8,
+    "codename": "view_product"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 33,
+  "fields": {
+    "name": "Can add order item",
+    "content_type": 9,
+    "codename": "add_orderitem"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 34,
+  "fields": {
+    "name": "Can change order item",
+    "content_type": 9,
+    "codename": "change_orderitem"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 35,
+  "fields": {
+    "name": "Can delete order item",
+    "content_type": 9,
+    "codename": "delete_orderitem"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 36,
+  "fields": {
+    "name": "Can view order item",
+    "content_type": 9,
+    "codename": "view_orderitem"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 37,
+  "fields": {
+    "name": "Can add Variante d'Article",
+    "content_type": 10,
+    "codename": "add_productvariant"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 38,
+  "fields": {
+    "name": "Can change Variante d'Article",
+    "content_type": 10,
+    "codename": "change_productvariant"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 39,
+  "fields": {
+    "name": "Can delete Variante d'Article",
+    "content_type": 10,
+    "codename": "delete_productvariant"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 40,
+  "fields": {
+    "name": "Can view Variante d'Article",
+    "content_type": 10,
+    "codename": "view_productvariant"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 41,
+  "fields": {
+    "name": "Can add Commande",
+    "content_type": 11,
+    "codename": "add_order"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 42,
+  "fields": {
+    "name": "Can change Commande",
+    "content_type": 11,
+    "codename": "change_order"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 43,
+  "fields": {
+    "name": "Can delete Commande",
+    "content_type": 11,
+    "codename": "delete_order"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 44,
+  "fields": {
+    "name": "Can view Commande",
+    "content_type": 11,
+    "codename": "view_order"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 45,
+  "fields": {
+    "name": "Can add Article de Commande",
+    "content_type": 12,
+    "codename": "add_orderitem"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 46,
+  "fields": {
+    "name": "Can change Article de Commande",
+    "content_type": 12,
+    "codename": "change_orderitem"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 47,
+  "fields": {
+    "name": "Can delete Article de Commande",
+    "content_type": 12,
+    "codename": "delete_orderitem"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 48,
+  "fields": {
+    "name": "Can view Article de Commande",
+    "content_type": 12,
+    "codename": "view_orderitem"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 49,
+  "fields": {
+    "name": "Can add Cat�gorie",
+    "content_type": 13,
+    "codename": "add_category"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 50,
+  "fields": {
+    "name": "Can change Cat�gorie",
+    "content_type": 13,
+    "codename": "change_category"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 51,
+  "fields": {
+    "name": "Can delete Cat�gorie",
+    "content_type": 13,
+    "codename": "delete_category"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 52,
+  "fields": {
+    "name": "Can view Cat�gorie",
+    "content_type": 13,
+    "codename": "view_category"
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$v0vegSmzqPBZz21k7GBC4w$IDy0xV3Xhql0cAinX17Lac8SeGbTRE/z4UZp3eoe97A=",
+    "last_login": "2025-10-03T02:20:30.581Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-09-23T21:25:46.894Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$HYvEuwhbvewDR4DM66VQRh$9pjxxZssZLQc0b+6XShUGqqbce889KPwBCBs2cCqcgo=",
+    "last_login": null,
+    "is_superuser": true,
+    "username": "life",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-10-11T23:09:06.870Z",
+    "groups": [],
+    "user_permissions": []
+  }
+}
+]

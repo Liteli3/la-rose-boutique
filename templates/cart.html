@@ -1,0 +1,671 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Votre Panier - LA ROSE BOUTIQUE{% endblock %}
+
+{% block extra_head %}
+<style>
+    /* STYLES ORIGINAUX - CONSERVÉS INTACTS */
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #ebf5ff;
+        padding: 20px;
+    }
+    .header {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 20px;
+    }
+    .btn-beige {
+        text-decoration: none;
+        color: #333;
+        background-color: #e9d4a8;
+        padding: 15px 25px;
+        border-radius: 8px;
+        font-weight: bold;
+        transition: background-color 0.3s, transform 0.1s, box-shadow 0.3s;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .btn-beige:hover {
+        background-color: #d3b688;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+    .header a {
+        text-decoration: none;
+    }
+    .cart-container {
+        max-width: 900px;
+        margin: 40px auto;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+    }
+    h1 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 30px;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 15px;
+    }
+    .return-link-bottom {
+        display: block;
+        text-align: center;
+        margin-bottom: 20px;
+        font-weight: bold;
+        color: #007bff;
+        text-decoration: none;
+    }
+    .cart-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 0;
+        border-bottom: 1px dashed #eee;
+        flex-wrap: nowrap;
+    }
+    .cart-item:last-child {
+        border-bottom: none;
+    }
+    .item-info {
+        display: flex;
+        align-items: center;
+        flex-grow: 1;
+    }
+    .item-info img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-right: 15px;
+        flex-shrink: 0;
+    }
+    .item-name {
+        font-weight: bold;
+        color: #333;
+    }
+    .item-variant-size {
+        color: #777;
+        font-size: 0.9em;
+        margin-top: 2px;
+    }
+    .item-price {
+        font-size: 0.9em;
+        color: #555;
+    }
+    .item-details {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 40%;
+        min-width: 250px;
+    }
+    .quantity-control {
+        display: flex;
+        align-items: center;
+    }
+    .quantity-control input {
+        width: 50px;
+        text-align: center;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 5px;
+        margin: 0 8px;
+    }
+    .quantity-control button {
+        background: #eee;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 4px;
+        font-weight: bold;
+    }
+    .item-total {
+        font-weight: bold;
+        color: #007bff;
+        width: 80px;
+        text-align: right;
+        flex-shrink: 0;
+    }
+    .remove-btn {
+        background: #dc3545;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        flex-shrink: 0;
+        margin-left: 10px;
+    }
+    .remove-btn:hover {
+        background: #c82333;
+    }
+    .cart-summary {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 2px solid #eee;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .cart-summary .total-label {
+        font-size: 1.5em;
+        font-weight: bold;
+        color: #333;
+    }
+    .cart-summary .total-value {
+        font-size: 1.8em;
+        font-weight: bold;
+        color: #4CAF50;
+    }
+    .checkout-btn {
+        background-color: #28a745;
+        color: white;
+        padding: 15px 30px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 1.2em;
+        transition: background-color 0.3s;
+        display: inline-block;
+        width: 100%;
+        max-width: 400px;
+    }
+    .checkout-btn:hover {
+        background-color: #218838;
+    }
+    .empty-cart {
+        text-align: center;
+        padding: 50px;
+        color: #6c757d;
+    }
+    .empty-cart a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    /* ********************************************************** */
+    /* RESPONSIVE DESIGN AMÉLIORÉ - SEULEMENT LES MEDIA QUERIES */
+    /* ********************************************************** */
+
+    /* Tablettes */
+    @media (max-width: 768px) {
+        .cart-container {
+            margin: 30px 15px;
+            padding: 25px;
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            margin-bottom: 25px;
+        }
+
+        .item-details {
+            min-width: 220px;
+        }
+
+        .cart-summary {
+            flex-direction: column;
+            gap: 15px;
+            align-items: flex-start;
+        }
+
+        .checkout-btn {
+            max-width: 100%;
+        }
+    }
+
+    /* Mobiles - Layout empilé */
+    @media (max-width: 650px) {
+        .cart-container {
+            margin: 20px 10px;
+            padding: 20px;
+        }
+
+        .cart-item {
+            flex-direction: column;
+            align-items: flex-start;
+            padding-bottom: 20px;
+            gap: 15px;
+        }
+
+        .item-info {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .item-details {
+            width: 100%;
+            min-width: 100%;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .quantity-control {
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .item-total {
+            width: 100%;
+            text-align: left;
+            font-size: 1.2em;
+            order: -1;
+        }
+
+        .remove-btn {
+            width: 100%;
+            margin-left: 0;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .cart-summary {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .cart-summary .total-value {
+            margin-top: 5px;
+        }
+
+        .checkout-btn {
+            max-width: 100%;
+            padding: 12px 20px;
+        }
+    }
+
+    /* Mobiles petits */
+    @media (max-width: 480px) {
+        body {
+            padding: 15px;
+        }
+
+        .cart-container {
+            margin: 15px 5px;
+            padding: 15px;
+        }
+
+        h1 {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+        }
+
+        .item-info img {
+            width: 70px;
+            height: 70px;
+            margin-right: 12px;
+        }
+
+        .item-name {
+            font-size: 1rem;
+        }
+
+        .btn-beige {
+            padding: 12px 20px;
+            font-size: 0.9rem;
+        }
+
+        .return-link-bottom {
+            font-size: 0.9rem;
+        }
+    }
+
+    /* Très petits mobiles (iPhone SE, etc.) */
+    @media (max-width: 375px) {
+        body {
+            padding: 10px;
+        }
+
+        .cart-container {
+            margin: 10px;
+            padding: 15px;
+        }
+
+        h1 {
+            font-size: 1.3rem;
+        }
+
+        .item-info img {
+            width: 60px;
+            height: 60px;
+            margin-right: 10px;
+        }
+
+        .item-details {
+            gap: 10px;
+        }
+
+        .quantity-control input {
+            width: 45px;
+            padding: 4px;
+        }
+
+        .btn-beige {
+            padding: 10px 16px;
+            font-size: 0.85rem;
+        }
+    }
+
+    /* Mode paysage mobile */
+    @media (max-height: 500px) and (orientation: landscape) {
+        .cart-container {
+            margin: 15px auto;
+            padding: 20px;
+        }
+
+        .cart-item {
+            padding: 12px 0;
+        }
+
+        .item-info img {
+            width: 60px;
+            height: 60px;
+        }
+    }
+
+    /* Pour éviter les débordements sur écrans très étroits */
+    @media (max-width: 320px) {
+        .item-info {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .item-info img {
+            margin-right: 0;
+            margin-bottom: 10px;
+        }
+
+        .quantity-control {
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .quantity-control input {
+            width: 40px;
+        }
+    }
+</style>
+{% endblock extra_head %}
+
+{% block content %}
+<div class="header">
+    <a href="{% url 'store' %}" class="btn-beige">🏦 Boutique</a>
+</div>
+
+<div class="cart-container">
+    <h1>Votre Panier</h1>
+    <a href="{% url 'store' %}" class="return-link-bottom">← Continuer mes achats</a>
+
+    {% if items %}
+        <div id="cart-items-list">
+            {% for item in items %}
+            <div class="cart-item"
+                 data-key="{{ item.key }}"
+                 data-update-url="{% url 'update_cart_quantity' key=item.key %}"
+                 data-remove-url="{% url 'remove_from_cart' key=item.key %}">
+                <div class="item-info">
+                    <img src="{% if item.product.image %}{{ item.product.image.url }}{% endif %}"
+                         onerror="this.onerror=null; this.src='https://placehold.co/80x80/6c757d/ffffff?text=Image';"
+                         alt="{{ item.product.name }}">
+                    <div>
+                        <div class="item-name">{{ item.product.name }}</div>
+                        <div class="item-variant-size">Taille : {{ item.variant.size }}</div>
+                        <div class="item-price">{{ item.product.price }} LR l'unité</div>
+                    </div>
+                </div>
+
+                <div class="item-details">
+                    <div class="item-total" id="total-{{ item.key|slugify }}">
+                        {{ item.total|stringformat:".2f" }} LR
+                    </div>
+                    <div class="quantity-control">
+                        <button class="update-qty-btn" data-action="decrement" data-key="{{ item.key }}">-</button>
+                        <input type="text"
+                               class="item-quantity-input"
+                               data-key="{{ item.key }}"
+                               value="{{ item.quantity }}"
+                               min="1"
+                               max="99"
+                               data-price="{{ item.product.price|stringformat:'f' }}">
+                        <button class="update-qty-btn" data-action="increment" data-key="{{ item.key }}">+</button>
+                    </div>
+
+                    <button class="remove-btn" data-key="{{ item.key }}">Supprimer</button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="cart-summary">
+            <span class="total-label">Total du panier :</span>
+            <span class="total-value" id="cart-total-price">
+                {{ cart_total_price|stringformat:".2f" }} LR
+            </span>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="{% url 'checkout' %}" class="checkout-btn">Passer la commande</a>
+        </div>
+
+    {% else %}
+        <div class="empty-cart">
+            <p>Votre panier est vide. 😢</p>
+            <a href="{% url 'store' %}">Commencer vos achats</a>
+        </div>
+    {% endif %}
+</div>
+
+<div id="csrf-container" style="display: none;">
+    {% csrf_token %}
+</div>
+{% endblock content %}
+
+{% block extra_js %}
+<!-- TON CODE JAVASCRIPT ORIGINAL RESTE INTACT -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Récupère le token CSRF
+        const csrftokenEl = document.querySelector('input[name="csrfmiddlewaretoken"]');
+        const csrftoken = csrftokenEl ? csrftokenEl.value : '';
+
+        // Fonction utilitaire pour le formatage des prix (ex: 19.99 -> 19.99 LR)
+        function formatPrice(price) {
+            // S'assure que le prix est un nombre flottant, puis le formate avec 2 décimales.
+            const number = parseFloat(price);
+            if (isNaN(number)) return "0.00 LR";
+            return `${number.toFixed(2)} LR`;
+        }
+
+        // -----------------------------------------------------------
+        // NOUVELLE FONCTION : Initialisation des prix au chargement (PLUS ROBUSTE)
+        // -----------------------------------------------------------
+        function initializeCartPrices() {
+            // 1. Initialiser le total de chaque ligne
+            document.querySelectorAll('.cart-item').forEach(itemEl => {
+                const totalEl = itemEl.querySelector('.item-total');
+                if (totalEl) {
+                    // Supprime TOUT texte non-numérique (y compris ' LR') et s'assure que la valeur est formatée
+                    const initialTotal = totalEl.textContent.replace(/[^\d.]/g, '').trim();
+                    totalEl.textContent = formatPrice(initialTotal);
+                }
+            });
+
+            // 2. Initialiser le total général
+            const cartTotalPriceEl = document.getElementById('cart-total-price');
+            if (cartTotalPriceEl) {
+                // Supprime TOUT texte non-numérique (y compris ' LR')
+                const initialTotalPrice = cartTotalPriceEl.textContent.replace(/[^\d.]/g, '').trim();
+                cartTotalPriceEl.textContent = formatPrice(initialTotalPrice);
+            }
+        }
+
+        // Appeler l'initialisation après le chargement du DOM
+        initializeCartPrices();
+        // -----------------------------------------------------------
+
+        function sendAjaxRequest(url, method, data, onSuccess) {
+            if (!csrftoken && method === 'POST') {
+                console.error("CSRF token not found. AJAX POST requests will fail.");
+                return;
+            }
+
+            fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': csrftoken
+                },
+                body: new URLSearchParams(data)
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                // Capture l'erreur JSON et la propage
+                return response.json().then(errorData => {
+                    console.error('Détails de l\'erreur:', errorData);
+                    throw new Error(errorData.error || 'La requête AJAX a échoué');
+                });
+            })
+            .then(data => {
+                if (data.success || data.cart_quantity !== undefined) {
+                    onSuccess(data);
+                } else {
+                    console.error('Erreur lors de la mise à jour (réponse JSON inattendue):', data);
+                    alert(data.error || "Une erreur inattendue est survenue.");
+                }
+            })
+            .catch(error => {
+                console.error('Erreur AJAX:', error.message);
+                alert(error.message);
+            });
+        }
+
+        function updateCartDisplay(key, newQuantity, newSubtotal, total, cartQuantity) {
+            const itemEl = document.querySelector(`.cart-item[data-key="${key}"]`);
+
+            if (newQuantity === 0 || !itemEl) {
+                if (itemEl) itemEl.remove();
+            } else {
+                const input = itemEl.querySelector('.item-quantity-input');
+                const totalEl = itemEl.querySelector('.item-total');
+                if (input) input.value = newQuantity;
+                // Utilisation de la fonction formatPrice pour la mise à jour
+                if (totalEl) totalEl.textContent = formatPrice(newSubtotal);
+            }
+
+            const cartTotalPriceEl = document.getElementById('cart-total-price');
+            // Utilisation de la fonction formatPrice pour le total général
+            if (cartTotalPriceEl) {
+                cartTotalPriceEl.textContent = formatPrice(total);
+            }
+
+            // Mise à jour de l'indicateur de quantité du panier (si présent sur la page)
+            const cartQtyElements = document.querySelectorAll('#cart-total-quantity');
+            cartQtyElements.forEach(el => el.textContent = cartQuantity);
+
+            // Gérer le panier vide
+            if (cartQuantity === 0) {
+                const container = document.getElementById('cart-items-list');
+                // On supprime l'élément principal et on insère le message de panier vide
+                if (container) {
+                     const cartContainer = document.querySelector('.cart-container');
+                     container.remove(); // Supprime l'ancienne liste
+                     cartContainer.insertAdjacentHTML('beforeend', `
+                        <div class="empty-cart" id="empty-cart-message">
+                            <p>Votre panier est vide. 😢</p>
+                            <a href="{% url 'store' %}">Commencer vos achats</a>
+                        </div>
+                    `);
+                }
+                // Cache les éléments du résumé et du bouton de paiement
+                const summary = document.querySelector('.cart-summary');
+                if (summary) summary.style.display = 'none';
+                const checkoutBtn = document.querySelector('.checkout-btn');
+                if (checkoutBtn) checkoutBtn.style.display = 'none';
+                const returnLink = document.querySelector('.return-link-bottom');
+                if (returnLink) returnLink.style.display = 'none'; // Cache le lien "Continuer les achats"
+            }
+        }
+
+
+        function handleQuantityChange(event) {
+            const button = event.currentTarget;
+            const itemEl = button.closest('.cart-item');
+            const input = itemEl.querySelector('.item-quantity-input');
+            const action = button.getAttribute('data-action');
+            let newQuantity = parseInt(input.value);
+            const key = itemEl.getAttribute('data-key');
+
+            // Logique de modification de quantité
+            if (action === 'increment') {
+                newQuantity += 1;
+            } else if (action === 'decrement' && newQuantity > 1) {
+                newQuantity -= 1;
+            } else if (action === 'decrement' && newQuantity === 1) {
+                // Si on décrémente à 0, on simule le clic sur supprimer
+                itemEl.querySelector('.remove-btn').click();
+                return;
+            } else {
+                return;
+            }
+
+            input.value = newQuantity;
+            const url = itemEl.getAttribute('data-update-url');
+
+            sendAjaxRequest(url, 'POST', { quantity: newQuantity }, function(data) {
+                updateCartDisplay(key, data.new_quantity, data.new_subtotal, data.total, data.cart_quantity);
+            });
+        }
+
+        function handleRemove(event) {
+            const button = event.currentTarget;
+            const itemEl = button.closest('.cart-item');
+            const url = itemEl.getAttribute('data-remove-url');
+            const key = itemEl.getAttribute('data-key');
+
+            sendAjaxRequest(url, 'POST', {}, function(data) {
+                // newQuantity = 0, newSubtotal = 0 pour indiquer la suppression
+                updateCartDisplay(key, 0, 0, data.total, data.cart_quantity);
+            });
+        }
+
+        // Attachement des gestionnaires d'événements
+        document.querySelectorAll('.update-qty-btn').forEach(button => {
+            button.addEventListener('click', handleQuantityChange);
+        });
+
+        document.querySelectorAll('.item-quantity-input').forEach(input => {
+            input.addEventListener('change', function() {
+                let newQuantity = parseInt(this.value);
+                const itemEl = this.closest('.cart-item');
+                const url = itemEl.getAttribute('data-update-url');
+                const key = itemEl.getAttribute('data-key');
+
+                if (isNaN(newQuantity) || newQuantity < 0) {
+                    // Revenir à 1 si la quantité est invalide
+                    newQuantity = 1;
+                }
+
+                if (newQuantity === 0) {
+                    itemEl.querySelector('.remove-btn').click();
+                    return;
+                }
+
+                this.value = newQuantity;
+
+                sendAjaxRequest(url, 'POST', { quantity: newQuantity }, function(data) {
+                    updateCartDisplay(key, data.new_quantity, data.new_subtotal, data.total, data.cart_quantity);
+                });
+            });
+        });
+
+        document.querySelectorAll('.remove-btn').forEach(button => {
+            button.addEventListener('click', handleRemove);
+        });
+    });
+</script>
+{% endblock extra_js %}

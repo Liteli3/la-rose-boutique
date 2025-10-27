@@ -1,0 +1,90 @@
+{# Chargement des tags static de Django pour les fichiers statiques #}
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    {# Viewport pour le responsive design sur mobile #}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {# Titre de la page avec block pour personnalisation par page #}
+    <title>{% block title %}La Rose Boutique{% endblock %}</title>
+
+    {# Intégration de Tailwind CSS via CDN #}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        {# Configuration personnalisée de Tailwind #}
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-blue': '#4a5568',    {# Couleur principale bleu/gris #}
+                        'accent-green': '#48bb78',    {# Couleur d'accent vert #}
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'], {# Police principale #}
+                    },
+                }
+            }
+        }
+    </script>
+    {# Block pour ajouter des CSS/JS supplémentaires dans les pages enfants #}
+    {% block extra_head %}{% endblock %}
+</head>
+{# Classes Tailwind pour le style de base de la page #}
+<body class="bg-gray-50 min-h-screen font-sans antialiased text-gray-800">
+
+    {# Conteneur pour les messages flash Django (succès, erreurs, warnings) #}
+    <div class="max-w-6xl mx-auto px-2 sm:px-4 mt-4 js-messages-container">
+        {# Vérification s'il y a des messages à afficher #}
+        {% if messages %}
+            {% for message in messages %}
+                {#
+                Structure d'un message flash :
+                - Style dynamique basé sur le type de message (success, error, warning, info)
+                - Animation de fade-out au clic sur la croix
+                - Accessibilité avec role="alert"
+                #}
+                <div class="p-4 rounded-lg shadow-md mb-3 flex items-center justify-between transition-opacity duration-300 opacity-100"
+                    role="alert"
+                    {# Styles inline conditionnels selon le type de message #}
+                    style="{% if message.tags == 'success' %}background-color: #d1fae5; color: #065f46; border: 1px solid #10b981;
+                           {% elif message.tags == 'error' %}background-color: #fee2e2; color: #991b1b; border: 1px solid #ef4444;
+                           {% elif message.tags == 'warning' %}background-color: #fffbeb; color: #92400e; border: 1px solid #f59e0b;
+                           {% else %}background-color: #e0f2fe; color: #075985; border: 1px solid #38bdf8;{% endif %}"
+                >
+                    {# Texte du message #}
+                    <p class="font-medium text-sm">{{ message }}</p>
+                    {#
+                    Bouton de fermeture du message :
+                    - Animation CSS pour fade-out progressif
+                    - Masquage complet après l'animation
+                    #}
+                    <button onclick="this.parentElement.style.opacity='0'; setTimeout(() => this.parentElement.style.display='none', 300);"
+                            class="ml-4 text-sm font-semibold opacity-70 hover:opacity-100 focus:outline-none">
+                        &times; {# Symbole de croix #}
+                    </button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    {#
+    Contenu principal de la page :
+    - max-w-6xl : largeur maximale du contenu
+    - mx-auto : centrage horizontal
+    - Responsive padding (petit sur mobile, grand sur desktop)
+    #}
+    <main class="max-w-6xl mx-auto px-2 py-4 sm:p-8">
+        {#
+        Block principal de contenu :
+        Toutes les pages enfants vont surcharger ce block avec leur contenu spécifique
+        #}
+        {% block content %}
+        {% endblock content %}
+    </main>
+
+    {# Block pour ajouter des scripts JavaScript spécifiques à certaines pages #}
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

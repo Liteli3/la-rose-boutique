@@ -1,0 +1,642 @@
+{% load static %}
+<!DOCTYPE a html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boutique - LA ROSE BOUTIQUE</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ebf5ff; /* Fond bleu pastel doux */
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* NOUVEAU STYLE POUR LE RECTANGLE DE CONTACT */
+        .contact-box {
+            background-color: #f7f9fc;
+            border: 1px solid #e0e7f1;
+            border-radius: 12px;
+            padding: 10px 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            font-size: 1em;
+            color: #555;
+            flex-grow: 1;
+            justify-content: center;
+            min-width: 200px;
+        }
+        .contact-box a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .contact-box a:hover {
+            color: #000;
+            text-decoration: underline;
+        }
+
+        /* BOUTON BEIGE */
+        .btn-beige {
+            display: inline-block;
+            text-decoration: none;
+            color: #333;
+            background-color: #e9d4a8;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: background-color 0.3s, transform 0.1s, box-shadow 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        .btn-beige:hover {
+            background-color: #d3b688;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .cart-link {
+            display: flex;
+            align-items: center;
+        }
+
+        /* ------------------------------------- */
+        /* STYLES DES FILTRES ET GRILLE OPTIMISÉS */
+        /* ------------------------------------- */
+
+        .filter-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 20px;
+        }
+
+        .search-form {
+            display: flex;
+            max-width: 500px;
+            flex-grow: 1;
+        }
+
+        .search-form input[type="search"] {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px 0 0 6px;
+            font-size: 1em;
+            width: 100%;
+        }
+
+        .search-form button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: 1px solid #007bff;
+            border-left: none;
+            border-radius: 0 6px 6px 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .category-select-form {
+            flex-shrink: 0;
+            width: 30%;
+            min-width: 200px;
+        }
+
+        .category-select-form select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1em;
+            width: 100%;
+            transition: border-color 0.3s;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        /* MEDIA QUERIES pour adaptation */
+        @media (max-width: 900px) {
+            .product-grid {
+                /* Passer à 2 colonnes pour les tablettes (768px+) et petits ordinateurs */
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* 🚨 MODIFICATION POUR FORCER 2 COLONNES MÊME SUR SMARTPHONE */
+        @media (max-width: 600px) {
+             .container {
+                /* Réduit le padding pour donner plus de place au contenu */
+                padding: 0 5px;
+             }
+             .product-grid {
+                /* Maintient 2 colonnes sur smartphone */
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px; /* Réduit l'espace entre les cartes */
+             }
+
+             /* Empilement des éléments de l'en-tête (nécessaire pour la lisibilité) */
+             .header {
+                 gap: 10px; /* Réduit l'espace entre les éléments empilés */
+             }
+             .header > a, .header > .cart-link, .header > .contact-box {
+                width: 100%;
+                justify-content: center;
+                text-align: center;
+                /* Réduit le padding des boutons pour qu'ils ne soient pas trop larges */
+                padding: 8px 15px;
+             }
+             .contact-box {
+                 flex-wrap: wrap;
+                 justify-content: center;
+                 padding: 5px 10px; /* Réduit le padding du rectangle de contact */
+             }
+
+             /* Empilement des filtres (nécessaire pour qu'ils ne débordent pas) */
+             .filter-container {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            .category-select-form {
+                width: 100%;
+                min-width: 100%;
+            }
+            .search-form {
+                max-width: none;
+            }
+            .search-form input, .search-form button, .category-select-form select {
+                padding: 8px; /* Réduit la taille des inputs/selects */
+            }
+
+            /* Ajustement de la taille de police des cartes pour les petits écrans */
+            .product-card h2 {
+                font-size: 1.2em;
+                min-height: 35px; /* Assure que le titre a suffisamment d'espace */
+            }
+            .product-card p {
+                font-size: 0.8em;
+                min-height: 30px;
+            }
+            .price {
+                font-size: 1.4em;
+            }
+            .add-to-cart-btn {
+                 padding: 10px; /* Rendre le bouton moins haut */
+            }
+        }
+        /* FIN DES MODIFICATIONS RESPONSIVES */
+
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            text-align: center;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* NOUVEAU CONTENEUR D'IMAGE POUR MAINTENIR LE RATIO */
+        .image-container {
+            width: 100%;
+            padding-bottom: 100%; /* Ratio 1:1 (carré) */
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 15px;
+            border-radius: 8px;
+        }
+
+        .product-card img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* L'image remplit toujours l'espace carré, coupée aux bords */
+            border-radius: 8px;
+        }
+        /* FIN NOUVEAU CONTENEUR D'IMAGE */
+
+        .product-card h2 {
+            font-size: 1.4em;
+            color: #333;
+            margin: 10px 0;
+            min-height: 40px;
+        }
+        .product-card p {
+            color: #6c757d;
+            font-size: 0.9em;
+            flex-grow: 1;
+            margin-bottom: 15px;
+            min-height: 40px;
+        }
+        .price {
+            font-size: 1.6em;
+            font-weight: bold;
+            color: #4CAF50;
+            margin-bottom: 15px;
+        }
+
+        /* Style pour la sélection de taille */
+        .variant-selector {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .variant-selector label {
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        .variant-selector select {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            width: 80%;
+            max-width: 200px;
+            transition: border-color 0.3s;
+        }
+
+        .add-to-cart-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            display: block;
+            width: 100%;
+        }
+        .add-to-cart-btn:hover {
+            background-color: #0056b3;
+        }
+        .disabled-btn {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+
+            {# BLOC GAUCHE : Accueil #}
+            <a href="{% url 'home' %}" class="btn-beige">← Accueil</a>
+
+            {# BLOC CENTRAL : LIENS DE CONTACT (Email/Téléphone) ENCADRÉS #}
+            {% if shop_config %}
+            <div class="contact-box">
+
+                {# Lien WhatsApp/Téléphone #}
+                {% if shop_config.contact_phone %}
+                    <a href="https://wa.me/{{ shop_config.contact_phone|cut:'+'|cut:' '|cut:'-' }}" target="_blank" title="Contactez-nous via WhatsApp">
+                        📱 WhatsApp
+                    </a>
+                {% endif %}
+
+                {# Lien Email #}
+                {% if shop_config.contact_email %}
+                    <a href="mailto:{{ shop_config.contact_email }}" title="Envoyez-nous un Email">
+                        📧 {{ shop_config.contact_email }}
+                    </a>
+                {% endif %}
+            </div>
+            {% endif %}
+            {# FIN BLOC CENTRAL #}
+
+            {# BLOC DROIT : Panier #}
+            <div class="cart-link">
+                <span class="cart-icon"></span>
+                <a href="{% url 'cart' %}" class="btn-beige">🛒 Panier (<span id="cart-quantity-indicator">{{ cart_total_quantity }}</span>)</a>
+            </div>
+
+        </div>
+
+        <h1>
+            {% if current_category %}
+                {{ current_category.name }}
+            {% elif search_query %}
+                Résultats pour "{{ search_query }}"
+            {% else %}
+                Nos Articles Exclusifs
+            {% endif %}
+        </h1>
+
+        {# CONTENEUR DES FILTRES : RECHERCHE ET CATÉGORIE #}
+        <div class="filter-container">
+
+            {# FORMULAIRE DE FILTRAGE PAR CATÉGORIE (via Select) #}
+            <form method="GET" action="{% url 'store' %}" class="category-select-form">
+                <select name="category_slug" onchange="this.form.submit()">
+
+                    {# Option "Toutes" #}
+                    <option value="all" {% if not current_category %}selected{% endif %}>
+                        Toutes les Catégories
+                    </option>
+
+                    {# Options Catégories #}
+                    {% for category in categories %}
+                        <option value="{{ category.slug }}"
+                                {% if current_category.slug == category.slug %}selected{% endif %}>
+                            {{ category.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+
+                {# Maintenir le terme de recherche si on change de catégorie #}
+                {% if search_query %}
+                    <input type="hidden" name="q" value="{{ search_query }}">
+                {% endif %}
+            </form>
+
+
+            {# FORMULAIRE DE RECHERCHE #}
+            <form method="GET" action="{% url 'store' %}" class="search-form">
+                <input type="search" name="q" value="{{ search_query|default:'' }}"
+                       placeholder="Rechercher un produit..."
+                       aria-label="Rechercher un produit" />
+                <button type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                      <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                    </svg>
+                </button>
+                {# Maintenir la catégorie sélectionnée si on lance une recherche #}
+                {% if current_category %}
+                    <input type="hidden" name="category_slug" value="{{ current_category.slug }}">
+                {% endif %}
+            </form>
+
+        </div> {# Fin filter-container #}
+
+
+        {# GRILLE DES PRODUITS #}
+        {% if products %}
+            <div class="product-grid">
+                {% for product in products %}
+                <div class="product-card" data-product-id="{{ product.id }}">
+
+                    {# NOUVEAU CONTENEUR D'IMAGE #}
+                    <div class="image-container">
+                        <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'path/to/default/image.jpg' %}{% endif %}"
+                             onerror="this.onerror=null; this.src='https://placehold.co/280x280/6c757d/ffffff?text=Image';"
+                             alt="{{ product.name }}">
+                    </div>
+                    {# FIN NOUVEAU CONTENEUR D'IMAGE #}
+
+                    <h2>{{ product.name }}</h2>
+                    <p>{{ product.description|truncatechars:100 }}</p>
+                    <div class="price">{{ product.price }} LR</div>
+
+                    {# DÉBUT DU FORMULAIRE DE VARIANTE (POST) #}
+                    <form method="POST" action="{% url 'add_to_cart' %}" class="add-to-cart-form">
+                        {% csrf_token %}
+
+                        <div class="variant-selector">
+                            <label for="variant-{{ product.id }}">Choisir la taille :</label>
+                            <select name="variant_id" id="variant-{{ product.id }}" class="product-variant-select">
+
+                                {% with available_variants=product.variants.all %}
+
+                                    {# Boucle sur TOUTES les variantes et affiche uniquement celles avec stock > 0 #}
+                                    {% for variant in available_variants %}
+                                        {% if variant.stock > 0 %}
+                                            <option value="{{ variant.id }}">
+                                                {{ variant.size }} (Stock: {{ variant.stock }})
+                                            </option>
+                                        {% endif %} {% empty %}
+                                        {# Si aucune variante n'existe, ou si toutes ont un stock de 0 #}
+                                        <option value="" disabled selected>Indisponible</option>
+                                    {% endfor %}
+
+                                {% endwith %}
+                            </select>
+                        </div>
+
+                        {# LOGIQUE DU BOUTON AJOUTER AU PANIER, utilisant la propriété Python 'is_available' #}
+                        <button type="submit"
+                                class="add-to-cart-btn {% if not product.is_available %}disabled-btn{% endif %}"
+                                {% if not product.is_available %}disabled{% endif %}>
+
+                            {% if product.is_available %}
+                                Ajouter au panier
+                            {% else %}
+                                Épuisé
+                            {% endif %}
+                        </button>
+
+                    </form>
+                    {# FIN DU FORMULAIRE DE VARIANTE #}
+
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p style="text-align: center; margin-top: 50px; font-size: 1.2em; color: #6c757d;">
+                Désolé, aucun produit ne correspond à ces critères.
+                <a href="{% url 'store' %}" style="color: #007bff; text-decoration: none;">Voir tous les produits</a>.
+            </p>
+        {% endif %}
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Cible tous les formulaires d'ajout au panier
+            const forms = document.querySelectorAll('.add-to-cart-form');
+            // Cible l'indicateur de quantité dans le header (base.html)
+            const cartIndicator = document.getElementById('cart-quantity-indicator');
+            // Cible le conteneur de messages (défini avec la classe dans base.html)
+            const messagesContainer = document.querySelector('.js-messages-container');
+
+            // Fonction utilitaire pour afficher les messages (succès/erreur)
+            function displayMessage(type, content) {
+                if (messagesContainer) {
+                    // Nettoie les messages précédents pour n'afficher que le nouveau
+                    messagesContainer.innerHTML = '';
+
+                    // Utilise les styles Tailwind/inline que vous avez déjà dans base.html
+                    const bgColor = type === 'success' ? '#d1fae5' : '#fee2e2';
+                    const textColor = type === 'success' ? '#065f46' : '#991b1b';
+                    const borderColor = type === 'success' ? '#10b981' : '#ef4444';
+
+                    const messageHtml = `
+                        <div class="p-4 rounded-lg shadow-md mb-3 flex items-center justify-between transition-opacity duration-300 opacity-100"
+                            role="alert"
+                            style="background-color: ${bgColor}; color: ${textColor}; border: 1px solid ${borderColor};"
+                        >
+                            <p class="font-medium text-sm">${content}</p>
+                            <button onclick="this.parentElement.style.opacity='0'; setTimeout(() => this.parentElement.style.display='none', 300);"
+                                    class="ml-4 text-sm font-semibold opacity-70 hover:opacity-100 focus:outline-none">
+                                &times;
+                            </button>
+                        </div>`;
+                    messagesContainer.innerHTML += messageHtml;
+                } else {
+                    // Utilisation de la concaténation standard pour éviter les erreurs de syntaxe
+                    console.log('Message (' + type + '): ' + content);
+                }
+            }
+
+            forms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault(); // Empêche le rechargement de la page
+
+                    const formData = new FormData(form);
+                    const url = form.action;
+
+                    // Envoi de la requête POST vers add_to_cart (qui retourne maintenant du JSON)
+                    fetch(url, {
+                        method: 'POST',
+                        body: formData,
+                    })
+                    .then(response => response.json().then(data => ({
+                        status: response.status,
+                        body: data
+                    })))
+                    .then(result => {
+                        const data = result.body;
+
+                        if (data.success) {
+                            // SUCCÈS : Mise à jour du compteur et affichage du message
+                            if (cartIndicator && data.new_cart_quantity !== undefined) {
+                                cartIndicator.textContent = data.new_cart_quantity;
+                            }
+                            displayMessage('success', data.message);
+
+                        } else {
+                            // ÉCHEC : Affichage de l'erreur
+                            displayMessage('error', data.error || 'Erreur inconnue lors de l\'ajout au panier.');
+                            console.error("Erreur d'ajout au panier :", data.error);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erreur réseau ou du serveur:', error);
+                        displayMessage('error', 'Une erreur inattendue est survenue (vérifiez la console pour plus de détails).');
+                    });
+                });
+            });
+        });
+
+        // -----------------------------------------------------------
+        // LOGIQUE DE POLLING POUR LE STOCK (utilisant l'ancienne URL non résolue)
+        // -----------------------------------------------------------
+
+        function updateStockDisplay(stockData) {
+            document.querySelectorAll('.product-variant-select').forEach(select => {
+                let productCard = select.closest('.product-card');
+                let hasAvailableStock = false;
+
+                select.querySelectorAll('option').forEach(option => {
+                    const variantId = option.value;
+
+                    if (variantId in stockData) {
+                        const currentStock = stockData[variantId];
+
+                        // 1. Mise à jour du texte de l'option
+                        if (currentStock > 0) {
+                            option.textContent = `${option.textContent.split('(')[0].trim()} (Stock: ${currentStock})`;
+                            option.disabled = false;
+                            hasAvailableStock = true;
+                        } else {
+                            option.textContent = `${option.textContent.split('(')[0].trim()} (Épuisé)`;
+                            option.disabled = true;
+                        }
+                    }
+                });
+
+                // 2. Mise à jour du bouton "Ajouter au panier" du produit
+                const addToCartBtn = productCard.querySelector('.add-to-cart-btn');
+
+                if (addToCartBtn) {
+                    if (hasAvailableStock) {
+                        addToCartBtn.textContent = 'Ajouter au panier';
+                        addToCartBtn.disabled = false;
+                        addToCartBtn.classList.remove('disabled-btn');
+                    } else {
+                        addToCartBtn.textContent = 'Épuisé';
+                        addToCartBtn.disabled = true;
+                        addToCartBtn.classList.add('disabled-btn');
+
+                        const unavailableOption = select.querySelector('option[value=""]');
+                        if (unavailableOption) {
+                            unavailableOption.selected = true;
+                        }
+                    }
+                }
+            });
+        }
+
+
+        // Fonction de Polling (appel répété)
+        function pollStockData() {
+            // ATTENTION: Cette ligne est la cause de l'erreur "Failed to parse URL"
+            // si elle n'est pas résolue par Django dans un bloc <script> séparé.
+            const url = "{% url 'get_stock_data' %}";
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erreur lors de la récupération des données de stock.');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data && data.stocks) {
+                        updateStockDisplay(data.stocks);
+                    }
+                })
+                .catch(error => {
+                    console.error("Erreur de Polling de stock:", error);
+                })
+                .finally(() => {
+                    setTimeout(pollStockData, 5000);
+                });
+        }
+
+        if (document.querySelector('.product-card')) {
+            // pollStockData();
+        }
+
+        // -----------------------------------------------------------
+        // FIN LOGIQUE DE POLLING
+        // -----------------------------------------------------------
+    </script>
+
+</body>
+</html>
