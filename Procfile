@@ -1,0 +1,1 @@
+web: gunicorn la_rose_boutique.wsgi:application --log-file -
