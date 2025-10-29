@@ -148,6 +148,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # Ligne pour les fichiers media
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-if not DEBUG:
-    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+#if not DEBUG:
+#    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 

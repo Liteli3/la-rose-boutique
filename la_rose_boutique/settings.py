@@ -7,7 +7,7 @@ For more information on this file, see
 https://docs.djangoproject.com/en/4.2/topics/settings/
 
 For the full list of settings and their values, see
-https://docs.djangoproject.com/en/4.2/ref/settings/
+https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 """
 
 from pathlib import Path
@@ -21,25 +21,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-g8ib5-4e3f)774fl$i+1f!k2dx!&bgpdy@f2bq1xt599be7hqa'
+# UTILISATION DES VARIABLES D'ENVIRONNEMENT DE RENDER
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-g8ib5-4e3f)774fl$i+1f!k2dx!&bgpdy@f2bq1xt599be7hqa')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# --- MODIFIEZ CECI ---
-# Nous allons forcer DEBUG=True localement ou si non défini
-DEBUG = os.environ.get('DEBUG_MODE', 'True') == 'True'
+# DÉFINI PAR LA VARIABLE D'ENVIRONNEMENT DEBUG_MODE sur Render (défaut local = True)
+DEBUG = os.environ.get('DEBUG_MODE') != 'False'
 
-# Temporairement, pour le diagnostic, assurons-nous que DEBUG est True SI l'application ne fonctionne pas.
-# Puisque Render ne met pas toujours DEBUG_MODE à False immédiatement.
-
-# Définissons-le ainsi pour le diagnostic:
-if os.environ.get('DEBUG_MODE') == 'False':
-    DEBUG = False
-else:
-    # Laissez-le à True pour le moment afin de voir les logs d'erreurs clairs
-    DEBUG = True
-# --------------------
-
-ALLOWED_HOSTS = []
+# Permet à toutes les URLs de Render d'accéder au service
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -57,7 +47,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', # Middleware de WhiteNoise DOIT être juste après SecurityMiddleware
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -136,8 +126,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
+# 1. Chemin où Django trouve les fichiers statiques en DEV
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] # Ajoutez aussi cette ligne pour les fichiers statiques
+
+# 2. Chemin où collectstatic va COPIER les fichiers statiques en PROD (L'ERREUR ÉTAIT ICI)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # Ligne pour les fichiers media
@@ -148,6 +142,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # Ligne pour les fichiers media
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-#if not DEBUG:
-#    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# Configuration WhiteNoise/Production
+if not DEBUG:
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
