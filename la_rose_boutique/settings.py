@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_extensions',
     'store',# Ligne ajouté pour dire a django que store est une application qui fait parti de mon projet
     'orders.apps.OrdersConfig', # REMPLACER 'orders' (si c'était le cas) par cette ligne,Ligne ajouté pour dire a django que orders est une application qui fait parti de mon projet
 ]
