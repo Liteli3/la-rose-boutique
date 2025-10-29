@@ -26,7 +26,8 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-g8ib5-4e3f)774fl$i+1f
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DÉFINI PAR LA VARIABLE D'ENVIRONNEMENT DEBUG_MODE sur Render (défaut local = True)
-DEBUG = os.environ.get('DEBUG_MODE') != 'False'
+# TEMPORAIREMENT POUR LE DÉBOGAGE SEULEMENT !!!
+DEBUG = True
 
 # Permet à toutes les URLs de Render d'accéder au service
 ALLOWED_HOSTS = ['*']
