@@ -389,7 +389,7 @@ def remove_from_cart(request, key):
 # VUE : Commander (Checkout)
 # =====================================================================================
 
-@login_required(login_url='login')
+
 def checkout(request):
     # Assurez-vous que l'utilisateur est authentifié et que le panier n'est pas vide
     if not request.session.get('cart', {}):
@@ -481,7 +481,7 @@ def checkout(request):
             try:
                 # Créer l'enregistrement Order
                 new_order = Order.objects.create(
-                    user=request.user,
+                    user=request.user if request.user.is_authenticated else None, # Permet à l'utilisateur d'être NULL si non connecté
                     full_name=full_name,
                     phone_number=phone_number,
                     address_line_1=address_line_1,
