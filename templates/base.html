@@ -23,6 +23,16 @@
             }
         }
     </script>
+    <style>
+        /* Correction pour les champs de saisie (input et textarea) sur mobile */
+        input:not([type="checkbox"]):not([type="radio"]),
+        textarea {
+            /* Force le texte à être noir (ou très sombre) et l'opacité complète */
+            color: #1f2937 !important; /* Tailwind's gray-800 */
+            -webkit-text-fill-color: #1f2937 !important; /* Correction spécifique pour certains navigateurs mobiles */
+            opacity: 1 !important;
+        }
+    </style>
     {% block extra_head %}{% endblock %}
 </head>
 <body class="bg-gray-50 min-h-screen font-sans antialiased text-gray-800">

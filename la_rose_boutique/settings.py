@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 from pathlib import Path
 import os
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -26,8 +27,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-g8ib5-4e3f)774fl$i+1f
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DÉFINI PAR LA VARIABLE D'ENVIRONNEMENT DEBUG_MODE sur Render (défaut local = True)
-# TEMPORAIREMENT POUR LE DÉBOGAGE SEULEMENT !!!
-DEBUG = False
+DEBUG = os.environ.get('DEBUG_MODE', 'True') == 'True'
 
 # Permet à toutes les URLs de Render d'accéder au service
 ALLOWED_HOSTS = ['*']
@@ -42,13 +42,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'store',# Ligne ajouté pour dire a django que store est une application qui fait parti de mon projet
-    'orders.apps.OrdersConfig', # REMPLACER 'orders' (si c'était le cas) par cette ligne,Ligne ajouté pour dire a django que orders est une application qui fait parti de mon projet
+    'storages',  # NOUVELLE APP POUR LE CLOUD STORAGE
+    'store',
+    'orders.apps.OrdersConfig',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', # Middleware de WhiteNoise DOIT être juste après SecurityMiddleware
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -81,8 +82,7 @@ WSGI_APPLICATION = 'la_rose_boutique.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
+# ** ATTENTION : Utiliser SQLite en PROD sur Render signifie que la DB sera réinitialisée après chaque déploiement/redémarrage. **
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -114,28 +114,23 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
 LANGUAGE_CODE = 'fr-fr'
-# ligne pour changer la langue de l'interface
-
 TIME_ZONE = 'Africa/Kinshasa'
-# ligne pour changer le fuseau horaire
-
 USE_I18N = True
-
 USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-# 1. Chemin où Django trouve les fichiers statiques en DEV
+# Configuration Statique Générale
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] # Ajoutez aussi cette ligne pour les fichiers statiques
-
-# 2. Chemin où collectstatic va COPIER les fichiers statiques en PROD (L'ERREUR ÉTAIT ICI)
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+# Configuration MEDIA par défaut (Locale)
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # Ligne pour les fichiers media
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -143,7 +138,27 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # Ligne pour les fichiers media
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# Configuration WhiteNoise/Production
+# Configuration WhiteNoise/Production et GCS
 if not DEBUG:
+    # -----------------------------------------------
+    # CONFIGURATION GCS (Google Cloud Storage)
+    # -----------------------------------------------
+
+    # Indique à Django d'utiliser GCS pour tous les téléversements (MEDIA)
+    DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+
+    # Récupère le nom du bucket GCS (défini dans les variables d'environnement de Render)
+    GS_BUCKET_NAME = os.environ.get("GS_BUCKET_NAME")
+
+    # Définit le chemin d'accès au fichier dans le bucket GCS
+    GS_LOCATION = 'media'
+
+    # Construit le MEDIA_URL pour pointer vers l'emplacement GCS
+    MEDIA_URL = f'https://storage.googleapis.com/{GS_BUCKET_NAME}/media/'
+
+    # -----------------------------------------------
+    # Configuration Statique (WhiteNoise)
+    # -----------------------------------------------
     STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
 
