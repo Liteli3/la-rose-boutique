@@ -563,8 +563,9 @@ def checkout(request):
         # Si méthode GET (première visite), pré-remplir le formulaire
         initial_data = {
             # Utilisation des noms de champs du modèle pour l'initialisation
-            'full_name': request.user.get_full_name(),
-            'phone_number': getattr(request.user, 'phone_number', ''),
+            'full_name': request.user.get_full_name() if request.user.is_authenticated else '',
+            # Le reste des champs initialisés (phone_number, etc.) doit aussi être conditionnel
+            'phone_number': getattr(request.user, 'phone_number', '') if request.user.is_authenticated else '',
         }
         form = OrderForm(initial=initial_data)
 
