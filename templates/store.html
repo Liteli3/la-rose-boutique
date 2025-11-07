@@ -150,6 +150,46 @@
             box-shadow: 0 12px 30px rgba(0,0,0,0.2);
         }
 
+        /* Category Navigation */
+        .category-nav {
+            margin-bottom: 30px;
+            overflow-x: auto;
+            padding: 10px 0;
+        }
+
+        .category-nav-container {
+            display: flex;
+            gap: 10px;
+            padding: 0 5px;
+            min-width: max-content;
+        }
+
+        .category-btn {
+            padding: 12px 24px;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: var(--radius);
+            color: var(--gray);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95em;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            box-shadow: var(--shadow);
+        }
+
+        .category-btn:hover {
+            border-color: var(--secondary);
+            color: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .category-btn.active {
+            background: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+
         /* Page Title */
         .page-title {
             text-align: center;
@@ -331,6 +371,25 @@
             margin: 10px 0;
         }
 
+        .stock-info {
+            font-size: 0.9em;
+            color: var(--gray);
+            margin: 5px 0;
+            font-weight: 500;
+        }
+
+        .stock-available {
+            color: var(--success);
+        }
+
+        .stock-low {
+            color: #ff9800;
+        }
+
+        .stock-out {
+            color: #f44336;
+        }
+
         .variant-selector {
             margin-bottom: 15px;
             display: flex;
@@ -462,6 +521,77 @@
                 font-size: 2em;
             }
 
+            /* Category Navigation Mobile */
+            .category-nav {
+                margin-bottom: 20px;
+            }
+
+            .category-btn {
+                padding: 10px 16px;
+                font-size: 0.85em;
+            }
+
+            /* VERSION 3 COLONNES SUR MOBILE (MODIFIÉ) */
+            .product-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 12px;
+            }
+
+            .product-card {
+                padding: 0;
+            }
+
+            .product-content {
+                padding: 12px;
+            }
+
+            .product-card h2 {
+                font-size: 0.85em;
+                margin: 6px 0;
+                line-height: 1.2;
+                min-height: auto;
+            }
+
+            .product-card p {
+                font-size: 0.75em;
+                margin-bottom: 8px;
+                line-height: 1.3;
+                min-height: auto;
+                display: none; /* Cache la description pour gagner de la place */
+            }
+
+            .price {
+                font-size: 1em;
+                margin: 6px 0;
+            }
+
+            /* MASQUAGE DE L'INDICATEUR VISUEL SUR MOBILE */
+            .stock-info {
+                display: none;
+            }
+            /* FIN MASQUAGE */
+
+            .variant-selector {
+                margin-bottom: 8px;
+            }
+
+            .variant-selector label {
+                font-size: 0.75em;
+                margin-bottom: 4px;
+            }
+
+            .variant-selector select {
+                padding: 6px 8px;
+                font-size: 0.75em;
+                max-width: 100%;
+            }
+
+            .add-to-cart-btn {
+                padding: 8px;
+                font-size: 0.75em;
+                border-radius: 6px;
+            }
+
             /* Bouton flottant sur mobile */
             .floating-cart-btn {
                 bottom: 20px;
@@ -479,21 +609,65 @@
                 padding: 10px;
             }
 
-            .product-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
             .page-title h1 {
                 font-size: 1.8em;
             }
 
             .btn-beige, .search-form button, .add-to-cart-btn {
-                padding: 12px 16px;
+                padding: 10px 14px;
             }
 
             .search-form input[type="search"], .category-select-form select {
-                padding: 12px 16px;
+                padding: 10px 14px;
+            }
+
+            /* Category Navigation Mobile */
+            .category-btn {
+                padding: 8px 12px;
+                font-size: 0.8em;
+            }
+
+            /* VERSION 3 COLONNES SUR TRÈS PETITS ÉCRANS (MODIFIÉ) */
+            .product-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+
+            .product-content {
+                padding: 8px;
+            }
+
+            .product-card h2 {
+                font-size: 0.75em;
+                margin: 4px 0;
+            }
+
+            .price {
+                font-size: 0.9em;
+                margin: 4px 0;
+            }
+
+            .stock-info {
+                font-size: 0.7em;
+                margin: 2px 0;
+            }
+
+            .variant-selector {
+                margin-bottom: 6px;
+            }
+
+            .variant-selector label {
+                font-size: 0.7em;
+            }
+
+            .variant-selector select {
+                padding: 4px 6px;
+                font-size: 0.7em;
+            }
+
+            .add-to-cart-btn {
+                padding: 6px;
+                font-size: 0.7em;
             }
 
             .floating-cart-btn {
@@ -502,8 +676,8 @@
             }
 
             .floating-cart-btn .btn-beige {
-                padding: 12px 18px;
-                font-size: 0.85em;
+                padding: 12px 16px;
+                font-size: 0.8em;
             }
         }
 
@@ -534,10 +708,40 @@
             display: block;
             animation: slideInUp 0.3s ease;
         }
+
+        /* ----- Ajout : style pour les sections de catégorie (regroupement visuel) ----- */
+        .category-section {
+            margin-bottom: 60px;
+            background: linear-gradient(180deg, #ffffff 0%, #f9f9f9 100%);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .category-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        .category-title {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 25px;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        /* ------------------------------------------------------------------------------- */
+
     </style>
 </head>
 <body>
     <div class="container">
+        <div class="js-messages-container"></div>
+
         <div class="header">
             <a href="{% url 'home' %}" class="btn-beige">
                 <span>←</span> Accueil
@@ -566,7 +770,6 @@
             </div>
         </div>
 
-        <!-- BOUTON PANIER FLOTTANT -->
         <div class="floating-cart-btn" id="floatingCartBtn">
             <a href="{% url 'cart' %}" class="btn-beige">
                 <span>🛒</span> Panier (<span id="floating-cart-quantity">{{ cart_total_quantity }}</span>)
@@ -594,6 +797,20 @@
             </p>
         </div>
 
+        <div class="category-nav">
+            <div class="category-nav-container">
+                <a href="{% url 'store' %}" class="category-btn {% if not current_category %}active{% endif %}">
+                    Tous les produits
+                </a>
+                {% for category in categories %}
+                <a href="{% url 'store' %}?category_slug={{ category.slug }}"
+                   class="category-btn {% if current_category.slug == category.slug %}active{% endif %}">
+                    {{ category.name }}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+
         <div class="filter-container">
             <form method="GET" action="{% url 'store' %}" class="category-select-form">
                 <select name="category_slug" onchange="this.form.submit()">
@@ -613,10 +830,10 @@
                 {% endif %}
             </form>
 
-            <form method="GET" action="{% url 'store' %}" class="search-form">
+            <form method="GET" action="{% url 'store' %}" class="search-form" id="searchForm">
                 <input type="search" name="q" value="{{ search_query|default:'' }}"
                        placeholder="Rechercher un produit..."
-                       aria-label="Rechercher un produit" />
+                       aria-label="Rechercher un produit" id="searchInput" />
                 <button type="submit">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
                       <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
@@ -629,54 +846,72 @@
         </div>
 
         {% if products %}
-            <div class="product-grid">
-                {% for product in products %}
-                <div class="product-card" data-product-id="{{ product.id }}">
-                    <div class="image-container">
-                        <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'path/to/default/image.jpg' %}{% endif %}"
-                             onerror="this.onerror=null; this.src='https://placehold.co/400x400/f8f9fa/6c757d?text=Image+Non+Disponible';"
-                             alt="{{ product.name }}">
-                    </div>
+            {# Regroup products by their category and show each category section #}
+            {% regroup products by category as grouped_products %}
+            {% for group in grouped_products %}
+                <div class="category-section">
+                    <h2 class="category-title">{{ group.grouper.name }}</h2>
 
-                    <div class="product-content">
-                        <h2>{{ product.name }}</h2>
-                        <p>{{ product.description|truncatechars:100 }}</p>
-                        <div class="price">{{ product.price }} LR</div>
-
-                        <form method="POST" action="{% url 'add_to_cart' %}" class="add-to-cart-form">
-                            {% csrf_token %}
-
-                            <div class="variant-selector">
-                                <label for="variant-{{ product.id }}">Choisir la taille :</label>
-                                <select name="variant_id" id="variant-{{ product.id }}" class="product-variant-select">
-                                    {% with available_variants=product.variants.all %}
-                                        {% for variant in available_variants %}
-                                            {% if variant.stock > 0 %}
-                                                <option value="{{ variant.id }}">
-                                                    {{ variant.size }} (Stock: {{ variant.stock }})
-                                                </option>
-                                            {% endif %}
-                                        {% empty %}
-                                            <option value="" disabled selected>Indisponible</option>
-                                        {% endfor %}
-                                    {% endwith %}
-                                </select>
+                    <div class="product-grid">
+                        {% for product in group.list %}
+                        <div class="product-card" data-product-id="{{ product.id }}">
+                            <div class="image-container">
+                                <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'path/to/default/image.jpg' %}{% endif %}"
+                                     onerror="this.onerror=null; this.src='https://placehold.co/400x400/f8f9fa/6c757d?text=Image+Non+Disponible';"
+                                     alt="{{ product.name }}">
                             </div>
 
-                            <button type="submit"
-                                    class="add-to-cart-btn {% if not product.is_available %}disabled-btn{% endif %}"
-                                    {% if not product.is_available %}disabled{% endif %}>
-                                {% if product.is_available %}
-                                    Ajouter au panier
-                                {% else %}
-                                    Épuisé
-                                {% endif %}
-                            </button>
-                        </form>
+                            <div class="product-content">
+                                <h2>{{ product.name }}</h2>
+                                <p>{{ product.description|truncatechars:100 }}</p>
+                                <div class="price">{{ product.price }} LR</div>
+
+                                <div class="stock-info {% if product.total_stock > 10 %}stock-available{% elif product.total_stock > 0 %}stock-low{% else %}stock-out{% endif %}">
+                                    {% if product.total_stock > 10 %}
+                                        ✅ En stock ({{ product.total_stock }} disponibles)
+                                    {% elif product.total_stock > 0 %}
+                                        ⚠️ Stock faible ({{ product.total_stock }} restants)
+                                    {% else %}
+                                        ❌ Rupture de stock
+                                    {% endif %}
+                                </div>
+
+                                <form method="POST" action="{% url 'add_to_cart' %}" class="add-to-cart-form">
+                                    {% csrf_token %}
+
+                                    <div class="variant-selector">
+                                        <label for="variant-{{ product.id }}">Taille:</label>
+                                        <select name="variant_id" id="variant-{{ product.id }}" class="product-variant-select">
+                                            {% with available_variants=product.variants.all %}
+                                                {% for variant in available_variants %}
+                                                    {% if variant.stock > 0 %}
+                                                        <option value="{{ variant.id }}">
+                                                            {{ variant.size }} ({{ variant.stock }} disponibles)
+                                                        </option>
+                                                    {% endif %}
+                                                {% empty %}
+                                                    <option value="" disabled selected>Indisponible</option>
+                                                {% endfor %}
+                                            {% endwith %}
+                                        </select>
+                                    </div>
+
+                                    <button type="submit"
+                                            class="add-to-cart-btn {% if not product.is_available %}disabled-btn{% endif %}"
+                                            {% if not product.is_available %}disabled{% endif %}>
+                                        {% if product.is_available %}
+                                            Ajouter au panier
+                                        {% else %}
+                                            Épuisé
+                                        {% endif %}
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        {% endfor %}
                     </div>
                 </div>
-                {% endfor %}
-            </div>
+            {% endfor %}
         {% else %}
             <div class="empty-state">
                 <p>Désolé, aucun produit ne correspond à ces critères.</p>
@@ -692,6 +927,25 @@
             const floatingCartIndicator = document.getElementById('floating-cart-quantity');
             const floatingCartBtn = document.getElementById('floatingCartBtn');
             const messagesContainer = document.querySelector('.js-messages-container');
+            const searchForm = document.getElementById('searchForm');
+
+            // Gestion de la recherche insensible à la casse
+            if (searchForm) {
+                searchForm.addEventListener('submit', function(e) {
+                    // Créer un champ caché pour envoyer la recherche en minuscules
+                    const searchInput = document.getElementById('searchInput');
+                    const searchValue = searchInput.value.trim();
+
+                    if (searchValue) {
+                        // Créer un champ caché pour la valeur en minuscules
+                        const hiddenInput = document.createElement('input');
+                        hiddenInput.type = 'hidden';
+                        hiddenInput.name = 'q_lower';
+                        hiddenInput.value = searchValue.toLowerCase();
+                        searchForm.appendChild(hiddenInput);
+                    }
+                });
+            }
 
             // Gestion du bouton panier flottant
             function handleScroll() {
@@ -780,20 +1034,22 @@
                 });
             });
 
-            // Stock polling function remains the same as in your original code
+            // Fonction de mise à jour du stock
             function updateStockDisplay(stockData) {
                 document.querySelectorAll('.product-variant-select').forEach(select => {
                     let productCard = select.closest('.product-card');
                     let hasAvailableStock = false;
+                    let totalStock = 0;
 
                     select.querySelectorAll('option').forEach(option => {
                         const variantId = option.value;
 
                         if (variantId in stockData) {
                             const currentStock = stockData[variantId];
+                            totalStock += currentStock;
 
                             if (currentStock > 0) {
-                                option.textContent = `${option.textContent.split('(')[0].trim()} (Stock: ${currentStock})`;
+                                option.textContent = `${option.textContent.split('(')[0].trim()} (${currentStock} disponibles)`;
                                 option.disabled = false;
                                 hasAvailableStock = true;
                             } else {
@@ -802,6 +1058,21 @@
                             }
                         }
                     });
+
+                    // Mise à jour de l'affichage du stock général
+                    const stockInfo = productCard.querySelector('.stock-info');
+                    if (stockInfo) {
+                        if (totalStock > 10) {
+                            stockInfo.textContent = `✅ En stock (${totalStock} disponibles)`;
+                            stockInfo.className = 'stock-info stock-available';
+                        } else if (totalStock > 0) {
+                            stockInfo.textContent = `⚠️ Stock faible (${totalStock} restants)`;
+                            stockInfo.className = 'stock-info stock-low';
+                        } else {
+                            stockInfo.textContent = '❌ Rupture de stock';
+                            stockInfo.className = 'stock-info stock-out';
+                        }
+                    }
 
                     const addToCartBtn = productCard.querySelector('.add-to-cart-btn');
                     if (addToCartBtn) {
@@ -845,9 +1116,12 @@
             }
 
             if (document.querySelector('.product-card')) {
-                // pollStockData();
+                pollStockData();
             }
         });
     </script>
 </body>
 </html>
+
+
+

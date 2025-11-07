@@ -24,17 +24,23 @@ def home(request):
 
 # Contenu de store/views.py - Fonction store (Corrigée)
 
-def store(request):  # category_slug=None est retiré ici pour correspondre à l'URL simple
+def store(request):
     """
     Affiche la boutique, en appliquant un filtre par catégorie ou une recherche.
-    Les filtres sont gérés via les paramètres GET (category_slug et q).
+    Les filtres sont gérés via les paramètres GET (category_slug et q_lower).
     """
     products = Product.objects.filter(is_active=True).order_by('name')
     current_category = None
 
-    # Correction majeure : 'q' est pour la recherche, 'category_slug' pour le filtre.
+    # Les filtres sont gérés via les paramètres GET (category_slug et q_lower)
     category_slug = request.GET.get('category_slug')
-    search_query = request.GET.get('q')  # Correctement lié au champ de recherche textuelle
+
+    # ATTENTION : Lecture du nouveau champ "q_lower" envoyé par le JavaScript
+    search_query = request.GET.get('q_lower')
+
+    # On récupère aussi 'q' pour la rétrocompatibilité (si le JS ne s'est pas exécuté)
+    # et pour l'affichage du terme de recherche
+    search_query_display = request.GET.get('q') or search_query
 
     # 1. GESTION DU FILTRAGE PAR CATÉGORIE
     # 'all' est la valeur que nous utilisons pour réinitialiser le filtre
@@ -45,9 +51,10 @@ def store(request):  # category_slug=None est retiré ici pour correspondre à l
         # Filtre les produits pour n'afficher que ceux de cette catégorie
         products = products.filter(category=current_category)
 
-    # 2. GESTION DE LA RECHERCHE PAR MOT-CLÉ
+    # 2. GESTION DE LA RECHERCHE PAR MOT-CLÉ (Utilisation de search_query qui est déjà en minuscule)
     if search_query:
-        # Utilisation de Q object pour chercher dans plusieurs champs
+        # Utilisation de Q object et de 'icontains' (insensible à la casse)
+        # La valeur de search_query est déjà en minuscule grâce au JS.
         products = products.filter(
             Q(name__icontains=search_query) |
             Q(description__icontains=search_query)
@@ -63,7 +70,7 @@ def store(request):  # category_slug=None est retiré ici pour correspondre à l
         'products': products,
         'categories': categories,  # Liste pour le menu de gauche
         'current_category': current_category,  # Pour mettre en évidence la catégorie sélectionnée
-        'search_query': search_query,  # Pour maintenir le terme dans la barre de recherche
+        'search_query': search_query_display,  # IMPORTANT : Utilisation de search_query_display pour l'affichage
         'shop_config': shop_config,  # Configuration de la boutique
     }
 
